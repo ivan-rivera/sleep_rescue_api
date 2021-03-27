@@ -16,7 +16,14 @@ export default {
           'Self guided Cognitive Behavioural Therapy (CBT-i) for insomniacs and those who suffer from sleep problems',
       },
     ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
+    link: [
+      {
+        rel: 'stylesheet',
+        href:
+          'https://fonts.googleapis.com/css2?family=Oxygen:wght@300;400;700&display=swap',
+      },
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+    ],
     script: [
       {
         src: 'https://code.jquery.com/jquery-3.6.0.js',
@@ -32,7 +39,7 @@ export default {
   plugins: [],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
-  components: true,
+  components: false,
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
@@ -40,7 +47,15 @@ export default {
     '@nuxtjs/eslint-module',
     // https://go.nuxtjs.dev/tailwindcss
     '@nuxtjs/tailwindcss',
+    '@nuxtjs/fontawesome',
   ],
+
+  fontawesome: {
+    icons: {
+      solid: true,
+      brands: true,
+    },
+  },
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
@@ -52,5 +67,15 @@ export default {
   axios: {},
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
-  build: {},
+  build: {
+    postcss: {
+      plugins: {
+        'postcss-import': true,
+      },
+    },
+  },
+
+  tailwindcss: {
+    jit: true,
+  },
 }
