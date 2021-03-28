@@ -11,7 +11,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .head-modal {
   @apply lg:hidden absolute inline;
   @apply border-2 border-white rounded-2xl;

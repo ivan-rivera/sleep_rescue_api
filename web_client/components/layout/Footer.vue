@@ -1,10 +1,10 @@
 <template>
-  <footer class="font-normal text-xs flex flex-col justify-center items-center">
+  <footer class="footer-group">
     <p>SleepRescue.org © {{ year }}</p>
     <div>
-      <p class="inline-block">Build with Phoenix + Nuxt</p>
-      <img class="inline-block" src="images/phoenix.svg" alt="phoenix" />
-      <img class="inline-block" src="images/nuxt-white-small.svg" alt="nuxt" />
+      <p class="footer-item">Build with Phoenix + Nuxt</p>
+      <img class="footer-item" src="images/phoenix.svg" alt="phoenix" />
+      <img class="footer-item" src="images/nuxt-white-small.svg" alt="nuxt" />
     </div>
   </footer>
 </template>
@@ -18,3 +18,14 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+.footer-group {
+  @apply font-normal text-xs;
+  @apply flex flex-col justify-center items-center;
+}
+
+.footer-item {
+  @apply inline-block;
+}
+</style>

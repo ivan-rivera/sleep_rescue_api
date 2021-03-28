@@ -1,7 +1,7 @@
 <template>
-  <div class="mt-5 mb-5">
+  <div class="full-page">
     <Header />
-    <div class="min-h-75vh">
+    <div class="page-contents">
       <Nuxt />
     </div>
     <Footer />
@@ -16,9 +16,10 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
 html {
   font-size: 16px;
+  max-width: 1800px;
   word-spacing: 1px;
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
@@ -28,6 +29,73 @@ html {
   @apply bg-dark text-white font-oxygen;
   @apply w-screen h-screen;
   @apply flex flex-col;
-  @apply pr-5 pl-5 mb-10 md:pr-10 md:pl-10 lg:pl-24 lg:pr-24 xl:pl-36 xl:pr-36;
+  @apply pr-5 pl-5 mb-10 md:pr-10 md:pl-10 lg:pl-24 lg:pr-24 xl:pl-36 xl:pr-36 m-auto;
+  @apply 2xl:text-xl;
+}
+
+.full-page {
+  @apply mt-5 mb-5;
+}
+
+.page-contents {
+  @apply min-h-75vh;
+}
+
+.card-background {
+  @apply bg-gradient-to-br from-supplementary to-primary;
+}
+
+.heading-top {
+  @apply font-bold text-4xl text-center;
+  @apply mt-5 mb-2.5;
+  @screen md {
+    @apply text-5xl;
+  }
+  @screen xl {
+    @apply text-6xl;
+  }
+}
+
+.heading-sub {
+  @apply text-lg text-supplementary text-center;
+  @apply mb-5;
+  @screen md {
+    @apply text-2xl;
+  }
+}
+
+.form-entry {
+  @apply flex flex-col;
+  @apply pb-2;
+}
+
+.form-entry-group {
+  @apply flex flex-row items-center;
+  @apply mb-2.5;
+  @apply w-full;
+}
+
+.form-icon {
+  @apply bg-dark;
+  @apply rounded-l-3xl;
+  @apply ml-10 p-2.5;
+  @apply text-white;
+}
+
+.form-input {
+  @apply flex-grow rounded-r-3xl border-2;
+  @apply pl-2.5 pt-2 pb-2 mr-10;
+  @apply focus:outline-none;
+}
+
+.action-btn {
+  @apply bg-dark;
+  @apply rounded-3xl;
+  @apply shadow-lg;
+  @apply text-white text-lg;
+  @apply mt-2.5 mb-5 ml-10 mr-10 pt-3 pb-2;
+  @apply transition duration-150 ease-in;
+  @apply hover:text-dark hover:bg-secondary;
+  @apply cursor-pointer;
 }
 </style>

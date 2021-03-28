@@ -1,7 +1,9 @@
 <template>
   <header class="header">
-    <div class="transform scale-75 origin-left">
-      <img src="images/logo.svg" alt="logo" />
+    <div class="logo">
+      <NuxtLink to="/">
+        <img src="images/logo.svg" alt="logo" />
+      </NuxtLink>
     </div>
     <HeaderNavigation class="hidden lg:block" />
     <HeaderButton @click.native="showModal = !showModal" />
@@ -27,9 +29,13 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .header {
   @apply relative flex flex-row items-center justify-between;
   @apply pt-2.5 pb-2.5;
+}
+
+.logo {
+  @apply transform scale-75 origin-left;
 }
 </style>
