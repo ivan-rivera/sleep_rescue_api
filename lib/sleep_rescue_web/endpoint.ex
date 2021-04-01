@@ -7,7 +7,7 @@ defmodule SleepRescueWeb.Endpoint do
   @session_options [
     store: :cookie,
     key: "_sleep_rescue_key",
-    signing_salt: "DMgmb1+w"
+    signing_salt: (System.get_env("SIGNING_SALT_SR") || raise "signing salt not found")
   ]
 
   socket "/socket", SleepRescueWeb.UserSocket,
@@ -42,5 +42,12 @@ defmodule SleepRescueWeb.Endpoint do
   plug Plug.MethodOverride
   plug Plug.Head
   plug Plug.Session, @session_options
+
+  plug Corsica,
+    origins: ["http://localhost:3000"],
+    allow_credentials: true,
+    allow_headers: ["Content-Type"],
+    log: [rejected: :error, invalid: :warn, accepted: :debug]
+
   plug SleepRescueWeb.Router
 end

@@ -18,6 +18,11 @@ config :sleep_rescue, SleepRescueWeb.Endpoint,
   pubsub_server: SleepRescue.PubSub,
   live_view: [signing_salt: (System.get_env("LIVE_VIEW_SALT_SR") || raise "LV secret is missing")]
 
+# POW authentication
+config :sleep_rescue, :pow,
+  user: SleepRescue.Users.User,
+  repo: SleepRescue.Repo
+
 # Configures Elixir's Logger
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",

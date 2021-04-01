@@ -5,7 +5,7 @@ defmodule SleepRescue.MixProject do
     [
       app: :sleep_rescue,
       version: "0.1.0",
-      elixir: "~> 1.11.3",
+      elixir: "~> 1.11.4",
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
@@ -33,6 +33,8 @@ defmodule SleepRescue.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
+      {:pow, "~> 1.0.23"},
+      {:corsica, "~> 1.1.3"},
       {:phoenix, "~> 1.5.6"},
       {:phoenix_ecto, "~> 4.1"},
       {:ecto_sql, "~> 3.4"},
