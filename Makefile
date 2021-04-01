@@ -5,3 +5,7 @@ backend:
 .PHONY: client
 client:
 	cd web_client && yarn dev && cd ..
+
+.PHONY: seed
+seed:
+	mix run priv/repo/seeds.exs
