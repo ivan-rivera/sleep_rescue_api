@@ -1,7 +1,6 @@
 # SleepRescue
 
 TODO:
-- Try moving cookies into the store
 - Move on to backend (auth)
 - Add form validation
 - Add error flashes for sign up, sign in and reset
@@ -11,3 +10,4 @@ TODO:
 - The main page
 - GraphQL
 - Look into tests (frontend and backend)
+- Create password reset and email update
