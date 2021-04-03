@@ -1,17 +1,19 @@
 <template>
   <header class="header">
     <div class="logo">
-      <NuxtLink to="/">
+      <NuxtLink :to="home_path">
         <img src="images/logo.svg" alt="logo" />
       </NuxtLink>
     </div>
     <HeaderNavigation class="hidden lg:block" />
-    <HeaderButton @click.native="showModal = !showModal" />
-    <HeaderModal v-if="showModal" />
+    <HeaderButton @click.native="toggleHeaderModal" />
+    <HeaderModal v-if="$store.state.showHeaderModal" />
   </header>
 </template>
 
 <script>
+import { mapMutations } from 'vuex'
+import { HOME_PATH } from 'assets/js/constants'
 import HeaderNavigation from '~/components/layout/HeaderNavigation'
 import HeaderButton from '~/components/layout/HeaderButton'
 import HeaderModal from '~/components/layout/HeaderModal'
@@ -23,8 +25,13 @@ export default {
   },
   data() {
     return {
-      showModal: false,
+      home_path: HOME_PATH,
     }
+  },
+  methods: {
+    ...mapMutations({
+      toggleHeaderModal: 'toggleHeaderModal',
+    }),
   },
 }
 </script>

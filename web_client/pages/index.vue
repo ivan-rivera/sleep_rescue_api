@@ -35,14 +35,40 @@
           <div class="signup-header">Sign Up For Free</div>
           <div class="signup-subheader">Your recovery begins today</div>
         </section>
-        <form action="" name="signup" method="post" class="form-entry">
-          <FormEntry form-type="text" placeholder="E-mail" icon="at" />
-          <FormEntry form-type="password" placeholder="Password" icon="key" />
-          <FormEntry
-            form-type="password"
-            placeholder="Repeat password"
-            icon="key"
-          />
+        <form
+          action=""
+          name="signup"
+          method="post"
+          class="form-entry"
+          @submit="registerUser"
+        >
+          <FormEntry icon="at">
+            <input
+              v-model="registration.user.email"
+              type="text"
+              placeholder="Email..."
+              class="form-input"
+              required
+            />
+          </FormEntry>
+          <FormEntry icon="key">
+            <input
+              v-model="registration.user.password"
+              type="password"
+              placeholder="Password..."
+              class="form-input"
+              required
+            />
+          </FormEntry>
+          <FormEntry icon="key">
+            <input
+              v-model="registration.user.password_confirmation"
+              type="password"
+              placeholder="Repeat password..."
+              class="form-input"
+              required
+            />
+          </FormEntry>
           <input
             class="action-btn"
             type="submit"
@@ -95,7 +121,9 @@
 </template>
 
 <script>
+import _ from 'lodash'
 import { mapMutations } from 'vuex'
+import { minLength, sameAs, email, required } from 'vuelidate/lib/validators'
 import HeroCard from '~/components/signup/HeroCard'
 import SigninModal from '~/components/signup/SigninModal'
 import ResetModal from '~/components/signup/ResetModal'
@@ -103,6 +131,7 @@ import FormEntry from '~/components/layout/FormEntry'
 import Modal from '~/components/layout/Modal'
 import CookiesNotice from '~/components/signup/CookiesNotice'
 export default {
+  auth: false,
   components: {
     CookiesNotice,
     HeroCard,
@@ -110,6 +139,33 @@ export default {
     Modal,
     ResetModal,
     SigninModal,
+  },
+  data() {
+    return {
+      registration: {
+        user: {
+          email: null,
+          password: null,
+          password_confirmation: null,
+        },
+      },
+    }
+  },
+  validations: {
+    registration: {
+      user: {
+        email: {
+          email,
+        },
+        password: {
+          minLength: minLength(8),
+          required,
+        },
+        password_confirmation: {
+          sameAsPassword: sameAs('password'),
+        },
+      },
+    },
   },
   head: {
     title: 'Signup',
@@ -130,11 +186,40 @@ export default {
       return this.$store.state.showResetModal
     },
   },
+  beforeCreate() {
+    if (this.$auth.loggedIn) {
+      this.$auth.redirect('home')
+    } else {
+      this.$store.commit('clearSignUpState')
+    }
+  },
   methods: {
     ...mapMutations({
+      setError: 'setError',
       toggleSignInModal: 'toggleSignInModal',
       toggleResetModal: 'toggleResetModal',
     }),
+    async registerUser(event) {
+      event.preventDefault()
+      this.$v.$touch()
+      const valid = _.every(
+        ['email', 'password', 'password_confirmation'],
+        (v) => !this.$v.registration.user[v].$invalid
+      )
+      if (valid) {
+        try {
+          await this.$axios.post('registration', this.registration)
+          await this.$auth.loginWith('local', { data: this.registration })
+        } catch (error) {
+          this.$store.commit('setError', error.response.data.message)
+        }
+      } else {
+        this.$store.commit(
+          'setError',
+          'You need to give us a valid email address and 2 identical passwords with at least 8 characters'
+        )
+      }
+    },
   },
 }
 </script>

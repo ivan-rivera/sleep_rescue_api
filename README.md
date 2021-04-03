@@ -1,9 +1,8 @@
 # SleepRescue
 
 TODO:
-- Move on to backend (auth)
-- Add form validation
-- Add error flashes for sign up, sign in and reset
+- Add a sign-in button to nav bar
+- Add login logic post account creation
 - set up accounts page (reset password, email, delete account, sign out)
 - Build an error page
 - Add sidebar
@@ -11,3 +10,4 @@ TODO:
 - GraphQL
 - Look into tests (frontend and backend)
 - Create password reset and email update
+- Put Nuxt and Phoenix behind an Nginx reverse proxy

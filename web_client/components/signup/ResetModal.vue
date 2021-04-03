@@ -10,9 +10,15 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex'
 import FormEntry from '~/components/layout/FormEntry'
 export default {
   components: { FormEntry },
+  methods: {
+    ...mapMutations({
+      toggleSignInModal: 'toggleResetModal',
+    }),
+  },
 }
 </script>
 

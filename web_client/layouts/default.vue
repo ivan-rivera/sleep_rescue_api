@@ -5,14 +5,16 @@
       <Nuxt />
     </div>
     <Footer />
+    <FlashError />
   </div>
 </template>
 
 <script>
+import FlashError from '~/components/layout/FlashError'
 import Header from '~/components/layout/Header'
 import Footer from '~/components/layout/Footer'
 export default {
-  components: { Footer, Header },
+  components: { Footer, Header, FlashError },
 }
 </script>
 

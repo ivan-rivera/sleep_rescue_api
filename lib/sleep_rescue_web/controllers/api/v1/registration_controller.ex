@@ -14,7 +14,7 @@ defmodule SleepRescueWeb.Api.V1.RegistrationController do
   """
   @spec create(Conn.t(), map()) :: Conn.t()
   def create(conn, %{"user" => user_params}) do
-    IO.inspect user_params
+    IO.inspect user_params # todo: remove
     conn
     |> Pow.Plug.create_user(user_params)
     |> case do
@@ -31,6 +31,7 @@ defmodule SleepRescueWeb.Api.V1.RegistrationController do
            conn
            |> put_status(500)
            |> json(%{error: %{status: 500, message: "Could not create user", errors: errors}})
+           # isolate email error message
        end
   end
 

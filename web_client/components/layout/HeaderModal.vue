@@ -1,13 +1,19 @@
 <template>
-  <div class="head-modal">
+  <div class="head-modal" @click="toggleHeaderModal">
     <HeaderNavigation />
   </div>
 </template>
 
 <script>
 import HeaderNavigation from '@/components/layout/HeaderNavigation'
+import { mapMutations } from 'vuex'
 export default {
   components: { HeaderNavigation },
+  methods: {
+    ...mapMutations({
+      toggleHeaderModal: 'toggleHeaderModal',
+    }),
+  },
 }
 </script>
 

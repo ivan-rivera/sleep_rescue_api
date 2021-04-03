@@ -22,6 +22,7 @@ defmodule SleepRescueWeb.Router do
   # protected routes
   scope "/api/v1", SleepRescueWeb.Api.V1, as: :api_v1 do
     pipe_through [:api, :api_protected]
+    get "/user", UserSettingsController, :show
   end
 
 end

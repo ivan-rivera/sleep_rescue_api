@@ -36,7 +36,7 @@ export default {
   css: [],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [],
+  plugins: [{ src: '~/plugins/Vuelidate', ssr: false }],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: false,
@@ -61,10 +61,52 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
+    '@nuxtjs/auth-next',
   ],
 
+  router: {
+    middleware: ['auth'],
+  },
+
+  auth: {
+    watchLoggedIn: true,
+    redirect: {
+      login: '/',
+      logout: '/',
+      home: '/account',
+    },
+    strategies: {
+      local: {
+        token: {
+          property: 'data.access_token',
+          maxAge: 1800,
+          type: '',
+        },
+        refreshToken: {
+          property: 'data.renewal_token',
+          maxAge: 60 * 60 * 24 * 30,
+          type: '',
+        },
+        endpoints: {
+          login: { url: '/session', method: 'post' },
+          logout: { url: '/session', method: 'delete' },
+          refresh: { url: '/session/renew', method: 'post' },
+          user: { url: '/user', method: 'get', propertyName: 'user' },
+        },
+      },
+    },
+  },
+
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
-  axios: {},
+  axios: {
+    baseURL: 'http://localhost:4000/api/v1',
+  },
+
+  publicRuntimeConfig: {
+    axios: {
+      baseURL: process.env.BROWSER_BASE_URL,
+    },
+  },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
