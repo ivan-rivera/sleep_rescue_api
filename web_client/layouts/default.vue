@@ -40,7 +40,7 @@ html {
 }
 
 .page-contents {
-  @apply min-h-75vh;
+  @apply min-h-page;
 }
 
 .card-background {
@@ -48,7 +48,7 @@ html {
 }
 
 .heading-top {
-  @apply font-bold text-4xl text-center;
+  @apply font-bold text-4xl;
   @apply mt-5 mb-2.5;
   @screen md {
     @apply text-5xl;
@@ -59,7 +59,7 @@ html {
 }
 
 .heading-sub {
-  @apply text-lg text-supplementary text-center;
+  @apply text-lg text-supplementary;
   @apply mb-5;
   @screen md {
     @apply text-2xl;
@@ -90,14 +90,26 @@ html {
   @apply focus:outline-none;
 }
 
-.action-btn {
-  @apply bg-dark;
+@mixin sr-btn {
   @apply rounded-3xl;
   @apply shadow-lg;
-  @apply text-white text-lg;
-  @apply mt-2.5 mb-5 ml-10 mr-10 pt-3 pb-2;
+  @apply text-lg;
+  @apply cursor-pointer;
+}
+
+.action-btn {
+  @include sr-btn;
+  @apply bg-dark;
+  @apply text-white;
+  @apply mt-2.5 mb-5 pt-3 pb-2 ml-10 mr-10;
   @apply transition duration-150 ease-in;
   @apply hover:text-dark hover:bg-secondary;
-  @apply cursor-pointer;
+}
+
+.danger-btn {
+  @include sr-btn;
+  @apply bg-secondary;
+  @apply text-dark;
+  @apply pt-2.5 pb-2.5;
 }
 </style>

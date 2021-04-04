@@ -4,8 +4,10 @@
       <div class="hero-content">
         <!-- left/top: text and cards -->
         <section>
-          <div class="heading-top">SleepRescue.org</div>
-          <div class="heading-sub">Let's get your sleep back on track</div>
+          <div class="heading-top text-center">SleepRescue.org</div>
+          <div class="heading-sub text-center">
+            Let's get your sleep back on track
+          </div>
           <div class="hero-text">
             Sleep is not a privilege, yet so many of us are struggling with
             insomnia. Sleep Rescue offers resources for self-guided Cognitive
@@ -80,13 +82,13 @@
           <div>
             Already have an account?
             <span class="existing-user-option" @click="toggleSignInModal"
-              ><u>Sign in</u></span
+              ><u><strong>Sign in</strong></u></span
             >
           </div>
           <div>
             Forgot your password?
             <span class="existing-user-option" @click="toggleResetModal"
-              ><u>Reset here</u></span
+              ><u><strong>Reset here</strong></u></span
             >
           </div>
         </section>
@@ -210,8 +212,9 @@ export default {
         try {
           await this.$axios.post('registration', this.registration)
           await this.$auth.loginWith('local', { data: this.registration })
+          this.$auth.redirect('home')
         } catch (error) {
-          this.$store.commit('setError', error.response.data.message)
+          this.$store.commit('setError', error.response.data.error.message)
         }
       } else {
         this.$store.commit(

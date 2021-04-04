@@ -28,10 +28,13 @@ defmodule SleepRescueWeb.Api.V1.RegistrationController do
 
          {:error, changeset, conn} ->
            errors = Changeset.traverse_errors(changeset, &ErrorHelpers.translate_error/1)
+           message = case errors do
+             %{email: [email_error | _other]} -> "Email problems: " <> email_error
+             _ -> "Oops, our server seems to be experiencing problems :("
+           end
            conn
            |> put_status(500)
-           |> json(%{error: %{status: 500, message: "Could not create user", errors: errors}})
-           # isolate email error message
+           |> json(%{error: %{status: 500, message: message, errors: errors}})
        end
   end
 

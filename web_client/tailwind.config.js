@@ -14,7 +14,7 @@ module.exports = {
     },
     extend: {
       minHeight: {
-        '75vh': '75vh',
+        page: '70vh',
       },
       keyframes: {
         reveal: {

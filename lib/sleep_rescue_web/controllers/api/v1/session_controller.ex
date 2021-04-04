@@ -20,7 +20,7 @@ defmodule SleepRescueWeb.Api.V1.SessionController do
            json(conn, %{
              data: %{
                access_token: conn.private.api_access_token,
-               renewal_token: conn.private.api_renewal_token
+               refresh_token: conn.private.api_renewal_token
              }
            })
 

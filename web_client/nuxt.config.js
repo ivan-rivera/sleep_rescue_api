@@ -77,13 +77,14 @@ export default {
     },
     strategies: {
       local: {
+        scheme: 'refresh',
         token: {
           property: 'data.access_token',
-          maxAge: 1800,
+          maxAge: 60 * 20,
           type: '',
         },
         refreshToken: {
-          property: 'data.renewal_token',
+          property: 'data.refresh_token',
           maxAge: 60 * 60 * 24 * 30,
           type: '',
         },
