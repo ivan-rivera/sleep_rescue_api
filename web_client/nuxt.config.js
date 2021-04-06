@@ -76,6 +76,16 @@ export default {
       home: '/account',
     },
     strategies: {
+      cookie: {
+        cookie: {
+          name: 'XSRF-TOKEN',
+        },
+        endpoints: {
+          csrf: {
+            url: '',
+          },
+        },
+      },
       local: {
         scheme: 'refresh',
         token: {
