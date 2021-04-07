@@ -69,6 +69,7 @@ export default {
   },
 
   auth: {
+    localStorage: false,
     watchLoggedIn: true,
     redirect: {
       login: '/',
