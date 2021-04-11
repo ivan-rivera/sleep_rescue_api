@@ -1,7 +1,6 @@
 # SleepRescue
 
 TODO:
-- Loading animation
 - set up accounts page (reset password, email, delete account)
 - Create password reset and email update
 - Build an error page
