@@ -43,8 +43,9 @@ defmodule SleepRescueWeb.ApiAuthPlug do
     # The store caches will use their default `:ttl` setting. To change the
     # `:ttl`, `Keyword.put(store_config, :ttl, :timer.minutes(10))` can be
     # passed in as the first argument instead of `store_config`.
-    CredentialsCache.put(store_config, access_token, {user, [renewal_token: renewal_token]})
-    PersistentSessionCache.put(store_config, renewal_token, {user, [access_token: access_token]})
+    custom_store_config = Keyword.put(store_config, :ttl, :timer.hours(24 * 60))
+    CredentialsCache.put(custom_store_config, access_token, {user, [renewal_token: renewal_token]})
+    PersistentSessionCache.put(custom_store_config, renewal_token, {user, [access_token: access_token]})
 
     {conn, user}
   end

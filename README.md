@@ -1,11 +1,14 @@
 # SleepRescue
 
 TODO:
-- set up accounts page (reset password, email, delete account)
-- Create password reset and email update
-- Build an error page
+- change sign in and reset modal form entries
+- fix frontend authentication
+- set up accounts page
 - Add sidebar
+- accounts page backend (change password, email, delete account)
+- conditional layout (no header on error page + sidebar on selected pages only)
 - The main page
 - Look into tests (frontend and backend)
 - donate page
+- customize error page
 - Deployment: Dokku/Heroku, DB...?

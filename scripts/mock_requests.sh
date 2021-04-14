@@ -27,3 +27,8 @@ function renew_session {
   http POST $BACKEND/api/v1/session/renew \
   "Authorization: $1"
 }
+
+function get_user {
+  http GET $BACKEND/api/v1/user \
+  "Authorization: $1"
+}
