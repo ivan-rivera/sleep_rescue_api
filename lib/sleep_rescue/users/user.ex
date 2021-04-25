@@ -2,6 +2,8 @@ defmodule SleepRescue.Users.User do
   alias SleepRescue.Repo
   use Ecto.Schema
   use Pow.Ecto.Schema
+  use Pow.Extension.Ecto.Schema,
+    extensions: [PowResetPassword, PowEmailConfirmation]
 
   #TODO: reset password
   #TODO: email confirmation
@@ -17,6 +19,7 @@ defmodule SleepRescue.Users.User do
   def changeset(%__MODULE__{} = user, attrs) do
     user
     |> pow_changeset(attrs)
+    |> pow_extension_changeset(attrs)
   end
 
   @doc """
@@ -24,6 +27,7 @@ defmodule SleepRescue.Users.User do
   controller, it uses the Pow plug instead. This method is used for dummy
   data creation or whenever you need to create a user outside the API call
   """
+  @spec create(map()) :: {:ok, map()} | {:error, map()}
   def create(attrs) do
     %__MODULE__{}
     |> changeset(attrs)
@@ -35,6 +39,7 @@ defmodule SleepRescue.Users.User do
        end
   end
 
+  @spec delete(integer()) :: {:ok, map()} | {:error, map()}
   def delete(user_id) do
     case user = Repo.get_by(__MODULE__, id: user_id) do
       nil -> {:error, "failed to fetch user"}

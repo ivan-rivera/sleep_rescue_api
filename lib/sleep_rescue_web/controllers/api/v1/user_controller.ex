@@ -9,7 +9,9 @@ defmodule SleepRescueWeb.Api.V1.UserController do
   alias Ecto.Changeset
   alias Plug.Conn
   alias SleepRescueWeb.ErrorHelpers
+  alias SleepRescueWeb.Helpers
 
+  @spec show(Conn.t(), map()) :: Conn.t()
   def show(conn, _params) do
     IO.inspect(conn)
     json(conn, %{user: Pow.Plug.current_user(conn)})
@@ -38,34 +40,38 @@ defmodule SleepRescueWeb.Api.V1.UserController do
              %{email: [email_error | _other]} -> "Email problems: " <> email_error
              _ -> "server error"
            end
-           json_error(conn, 500, message, errors)
+           Helpers.json_error(conn, 500, message, errors)
        end
   end
-  def create(conn, _params), do: json_error(conn, 400, "malformed request")
+
+  def create(conn, _params), do: Helpers.json_error(conn, 400, "malformed request")
 
 
   @doc """
   Delete user
   This action is password protected
   """
+  @spec delete(Conn.t(), map()) :: Conn.t()
   def delete(conn, %{"current_password" => password}) do
     with  user when not is_nil(user) <- conn.assigns.current_user,
           true <- User.verify_password(user, password),
           {:ok, _u} <- User.delete(user.id) do
             json(conn, %{data: %{message: "success"}})
     else
-          nil -> json_error(conn, 404, "user not found")
-          false -> json_error(conn, 401, "wrong password")
-          _ -> json_error(conn, 500, "server error")
+          nil -> Helpers.json_error(conn, 404, "user not found")
+          false -> Helpers.json_error(conn, 401, "wrong password")
+          _ -> Helpers.json_error(conn, 500, "server error")
     end
   end
-  def delete(conn, _params), do: json_error(conn, 400, "no password provided")
+
+  def delete(conn, _params), do: Helpers.json_error(conn, 400, "no password provided")
 
 
   @doc """
   Update users settings
   This action can update users email and or password
   """
+  @spec update(Conn.t(), map()) :: Conn.t()
   def update(conn, params = %{
     "current_password" => _,
     "email" => _
@@ -75,24 +81,17 @@ defmodule SleepRescueWeb.Api.V1.UserController do
     "password" => _,
     "password_confirmation" => _
   }), do: update_user(conn, params)
-  def update(conn, _params), do: json_error(conn, 400, "malformed request")
+  def update(conn, _params), do: Helpers.json_error(conn, 400, "malformed request")
 
 
-  # move this into user.ex
+  @spec update_user(Conn.t(), map()) :: Conn.t()
   defp update_user(conn, params) do
     case conn.assigns.current_user
          |> User.changeset(params)
          |> Repo.update() do
       {:ok, _cs} -> json(conn, %{data: %{message: "success"}})
-      {:error, _cs} -> json_error(conn, 400, "failed to update user")
+      {:error, _cs} -> Helpers.json_error(conn, 400, "failed to update user")
     end
-  end
-
-
-  defp json_error(conn, status, message, errors \\ []) do
-    conn
-    |> put_status(status)
-    |> json(%{error: %{message: message, errors: errors}})
   end
 
 end
