@@ -32,3 +32,18 @@ function get_user {
   http GET $BACKEND/api/v1/user \
   "Authorization: $1"
 }
+
+function delete_user {
+  http DELETE $BACKEND/api/v1/user \
+  "Authorization: $1" current_password="$2"
+}
+
+function change_email {
+  http PATCH $BACKEND/api/v1/user \
+  "Authorization: $1" current_password="$2" email="$3"
+}
+
+function change_password {
+  http PATCH $BACKEND/api/v1/user \
+  "Authorization: $1" current_password="$2" password="$3" password_confirmation="$4"
+}

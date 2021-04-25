@@ -6,13 +6,14 @@
 
 # General application configuration
 use Mix.Config
+# TODO: check production/deployment checklist before deploying live
 
 config :sleep_rescue,
   ecto_repos: [SleepRescue.Repo]
 
 # Configures the endpoint
 config :sleep_rescue, SleepRescueWeb.Endpoint,
-  url: [host: "localhost"],
+  url: [host: "localhost"], # todo: change this in prod
   secret_key_base: (System.get_env("SECRET_KEY_BASE_SR") || raise "secret key base is missing"),
   render_errors: [view: SleepRescueWeb.ErrorView, accepts: ~w(json), layout: false],
   pubsub_server: SleepRescue.PubSub,

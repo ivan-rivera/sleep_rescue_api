@@ -27,7 +27,7 @@ defmodule SleepRescueWeb.Api.V1.SessionController do
          {:error, conn} ->
            conn
            |> put_status(401)
-           |> json(%{error: %{status: 401, message: "Invalid email or password"}})
+           |> json(%{error: %{message: "Invalid email or password"}})
        end
   end
 
@@ -44,7 +44,7 @@ defmodule SleepRescueWeb.Api.V1.SessionController do
          {conn, nil} ->
            conn
            |> put_status(401)
-           |> json(%{error: %{status: 401, message: "Invalid token"}})
+           |> json(%{error: %{message: "Invalid token"}})
 
          {conn, _user} ->
            json(conn, %{

@@ -14,7 +14,7 @@ defmodule SleepRescueWeb.Router do
   scope "/api/v1", SleepRescueWeb.Api.V1, as: :api_v1 do
     pipe_through :api
 
-    resources "/registration", RegistrationController, singleton: true, only: [:create]
+    resources "/registration", UserController, singleton: true, only: [:create]
     resources "/session", SessionController, singleton: true, only: [:create, :delete]
     post "/session/renew", SessionController, :renew
   end
@@ -22,7 +22,7 @@ defmodule SleepRescueWeb.Router do
   # protected routes
   scope "/api/v1", SleepRescueWeb.Api.V1, as: :api_v1 do
     pipe_through [:api, :api_protected]
-    get "/user", UserSettingsController, :show
+    resources "/user", UserController, singleton: true, only: [:show, :delete, :update]
   end
 
 end

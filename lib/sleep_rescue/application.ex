@@ -2,6 +2,7 @@ defmodule SleepRescue.Application do
   # See https://hexdocs.pm/elixir/Application.html
   # for more information on OTP Applications
   @moduledoc false
+  # TODO: review POW production checklist
 
   use Application
 
