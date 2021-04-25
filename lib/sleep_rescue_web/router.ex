@@ -1,6 +1,10 @@
 defmodule SleepRescueWeb.Router do
   use SleepRescueWeb, :router
 
+  if Mix.env == :dev do
+    forward "/sent_emails", Bamboo.SentEmailViewerPlug
+  end
+
   pipeline :api do
     plug :accepts, ["json"]
     plug SleepRescueWeb.ApiAuthPlug, otp_app: :sleep_rescue
@@ -17,6 +21,8 @@ defmodule SleepRescueWeb.Router do
     resources "/registration", UserController, singleton: true, only: [:create]
     resources "/session", SessionController, singleton: true, only: [:create, :delete]
     post "/session/renew", SessionController, :renew
+    post "/password/reset", PasswordResetController, :reset
+    patch "/password/update/:token", PasswordResetController, :update
   end
 
   # protected routes

@@ -22,7 +22,9 @@ config :sleep_rescue, SleepRescueWeb.Endpoint,
 # POW authentication
 config :sleep_rescue, :pow,
   user: SleepRescue.Users.User,
-  repo: SleepRescue.Repo
+  repo: SleepRescue.Repo,
+  extensions: [PowResetPassword, PowEmailConfirmation],
+  controller_callbacks: Pow.Extension.Phoenix.ControllerCallbacks
 
 # Configures Elixir's Logger
 config :logger, :console,
