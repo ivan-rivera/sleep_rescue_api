@@ -1,0 +1,18 @@
+<h1 class="header">Your password reset link</h1>
+<div class="line"></div>
+<p>
+    <span>Hi there,</span>
+    <br><br>
+    <span>
+        It looks like you have recently requested to reset your
+        <a href="https://www.sleeprescue.org">SleepRescue.org</a> password.
+        <br><br>
+        To set a new password, please follow <a href="<%= @url %>">this link</a>.
+        If you did not request a password reset, then just ignore this email.
+    </span>
+    <br><br>
+    <span>Sleep well,</span>
+    <br>
+    <span><a href="https://www.sleeprescue.org">SleepRescue.org</a> team</span>
+</p>
+<div class="line"></div>

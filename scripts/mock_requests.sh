@@ -47,3 +47,11 @@ function change_password {
   http PATCH $BACKEND/api/v1/user \
   "Authorization: $1" current_password="$2" password="$3" password_confirmation="$4"
 }
+
+function get_reset_password_token {
+  http POST $BACKEND/api/v1/password/reset email=$1
+}
+
+function set_password_via_reset_token {
+  http PATCH $BACKEND/api/v1/password/update/$1 password=$2 password_confirmation=$3
+}

@@ -5,9 +5,9 @@ defmodule SleepRescueWeb.Api.V1.PasswordResetController do
 
   use SleepRescueWeb, :controller
   alias SleepRescueWeb.Helpers
-  alias SleepRescue.Mail.{Email, Mailer}
+  alias SleepRescue.Mail.Mailer
+  alias SleepRescue.Email
 
-  # TODO: link this action to email send out
   @doc """
   Generate a password reset token
   """
@@ -15,10 +15,12 @@ defmodule SleepRescueWeb.Api.V1.PasswordResetController do
   def reset(conn, params = %{"email" => email}) do
     case PowResetPassword.Plug.create_reset_token(conn, params) do
       {:ok, %{token: token}, _} ->
-        email
-        |> Email.welcome_email("hi!") # TODO change to reset email and change the message
-        |> Mailer.deliver_later()
-        json(conn, %{data: %{reset_token: token}})
+        case email
+          |> Email.reset_email(token) # TODO look into timeouts
+          |> Mailer.deliver_later() do
+            {:ok, _} -> json(conn, %{data: %{message: "message sent"}})
+            _ -> Helpers.json_error(conn, 500, "unable to send the message")
+        end
       _ -> Helpers.json_error(conn, 404, "email not found")
     end
   end
@@ -33,12 +35,9 @@ defmodule SleepRescueWeb.Api.V1.PasswordResetController do
   def update(conn, params = %{"token" => token, "password" => _, "password_confirmation" => _}) do
     with  {:ok, conn} <- PowResetPassword.Plug.load_user_by_token(conn, token),
           {:ok, _, conn} <- PowResetPassword.Plug.update_user_password(conn, params) do
-      json(conn, %{message: "success"})
+      json(conn, %{data: %{email: conn.assigns.reset_password_user.email, message: "success"}})
     else
-      {:error, conn} -> Helpers.json_error(conn, 401, "incorrect token")
-      {:error, cs, conn} ->
-        {reason, _} = cs.errors[:password]
-        Helpers.json_error(conn, 500, "unable to update password", [reason])
+      _ -> Helpers.json_error(conn, 500, "unable to update password")
     end
   end
 

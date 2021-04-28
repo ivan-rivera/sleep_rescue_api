@@ -1,5 +1,6 @@
 use Mix.Config
 
+# TODO: use HTTPS
 # For production, don't forget to configure the url host
 # to something meaningful, Phoenix uses this information
 # when generating URLs.

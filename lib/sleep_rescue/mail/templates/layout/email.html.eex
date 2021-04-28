@@ -1,0 +1,29 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="/css/style.css">
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Oxygen:wght@300;400;700&display=swap" rel="stylesheet">
+    </head>
+    <header class="header">
+        <img src="/images/logo.svg">
+    </header>
+    <body>
+        <div class="container">
+            <%= @inner_content %>
+        </div>
+    </body>
+    <footer class="header">
+        <p>SleepRescue.org © <%= DateTime.utc_now.year %></p>
+        <div>
+            <ul class="footer-list">
+                <li><a href="https://www.sleeprescue.org/about">About us</a></li>
+                <li>|</li>
+                <li><a href="https://www.sleeprescue.org/contact">Contact</a></li>
+                <li>|</li>
+                <li><a href="https://www.sleeprescue.org/tc">Terms of Service</a></li>
+                <li>|</li>
+                <li><a href="https://www.sleeprescue.org/privacy">Privacy</a></li>
+            </ul>
+        </div>
+    </footer>
+</html>

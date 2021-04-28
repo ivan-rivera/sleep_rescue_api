@@ -13,7 +13,6 @@ defmodule SleepRescueWeb.Api.V1.UserController do
 
   @spec show(Conn.t(), map()) :: Conn.t()
   def show(conn, _params) do
-    IO.inspect(conn)
     json(conn, %{user: Pow.Plug.current_user(conn)})
   end
 
@@ -23,7 +22,6 @@ defmodule SleepRescueWeb.Api.V1.UserController do
   """
   @spec create(Conn.t(), map()) :: Conn.t()
   def create(conn, %{"user" => user_params}) do
-    IO.inspect user_params # todo: remove
     conn
     |> Pow.Plug.create_user(user_params)
     |> case do
