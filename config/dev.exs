@@ -20,7 +20,8 @@ config :sleep_rescue, SleepRescueWeb.Endpoint,
   debug_errors: false,
   code_reloader: true,
   check_origin: false,
-  watchers: []
+  watchers: [],
+  front_end_email_confirm_url: "http://localhost:8000/confirm-email/{token}"
 
 config :sleep_rescue, SleepRescue.Mail.Mailer,
    adapter: Bamboo.LocalAdapter,

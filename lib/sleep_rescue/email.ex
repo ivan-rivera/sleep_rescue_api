@@ -1,8 +1,14 @@
 defmodule SleepRescue.Email do
   use Bamboo.Template, view: SleepRescue.Mail.AccountView
 
+  def confirmation_email(email, token) do
+    base_email("Please confirm your email")
+    |> to(email)
+    |> assign(:url, "#{get_url_root()}/confirm?token=#{token}")
+    |> render("confirmation_email.html")
+  end
+
   def reset_email(email, token) do
-    IO.puts("params received: email #{email}, token: #{token}}")
     base_email("Your password reset token is here")
     |> to(email)
     |> assign(:url, "#{get_url_root()}/reset?token=#{token}")

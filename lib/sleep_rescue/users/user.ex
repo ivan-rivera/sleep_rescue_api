@@ -5,10 +5,6 @@ defmodule SleepRescue.Users.User do
   use Pow.Extension.Ecto.Schema,
     extensions: [PowResetPassword, PowEmailConfirmation]
 
-  #TODO: reset password
-  #TODO: email confirmation
-  #TODO: write docs
-  # todo: move create and delete into accounts
   @derive {Jason.Encoder, only: [:id, :email, :inserted_at]}
   schema "users" do
     pow_user_fields()

@@ -10,6 +10,10 @@ function create_user {
   user:="{\"email\": \"$1\", \"password\": \"$2\", \"password_confirmation\": \"$2\"}"
 }
 
+function confirm_email {
+  http GET $BACKEND/api/v1/confirm/$1
+}
+
 # needs an email and a password
 function log_in {
   http POST $BACKEND/api/v1/session \
@@ -35,17 +39,17 @@ function get_user {
 
 function delete_user {
   http DELETE $BACKEND/api/v1/user \
-  "Authorization: $1" current_password="$2"
+  "Authorization: $1" current_password=$2
 }
 
 function change_email {
   http PATCH $BACKEND/api/v1/user \
-  "Authorization: $1" current_password="$2" email="$3"
+  "Authorization: $1" current_password=$2 email=$3
 }
 
 function change_password {
   http PATCH $BACKEND/api/v1/user \
-  "Authorization: $1" current_password="$2" password="$3" password_confirmation="$4"
+  "Authorization: $1" current_password=$2 password=$3 password_confirmation=$4
 }
 
 function get_reset_password_token {
@@ -55,3 +59,5 @@ function get_reset_password_token {
 function set_password_via_reset_token {
   http PATCH $BACKEND/api/v1/password/update/$1 password=$2 password_confirmation=$3
 }
+
+

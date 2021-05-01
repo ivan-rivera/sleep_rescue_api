@@ -1,0 +1,16 @@
+<h1 class="header">Please confirm your email</h1>
+<div class="line"></div>
+<p>
+    <span>Welcome to <a href="https://www.sleeprescue.org">SleepRescue.org</a>!</span>
+    <br><br>
+    <span>
+        Please confirm your email by clicking on <a href="<%= @url %>">this link</a>.
+        <br><br>
+        If you did not create a SleepRescue.org account, then please ignore this email.
+    </span>
+    <br><br>
+    <span>Sleep well,</span>
+    <br>
+    <span><a href="https://www.sleeprescue.org">SleepRescue.org</a> team</span>
+</p>
+<div class="line"></div>
