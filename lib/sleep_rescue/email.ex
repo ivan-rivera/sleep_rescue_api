@@ -4,7 +4,7 @@ defmodule SleepRescue.Email do
   def confirmation_email(email, token) do
     base_email("Please confirm your email")
     |> to(email)
-    |> assign(:url, "#{get_url_root()}/confirm?token=#{token}")
+    |> assign(:url, "#{get_url_root()}/confirming?token=#{token}")
     |> render("confirmation_email.html")
   end
 

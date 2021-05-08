@@ -25,23 +25,26 @@ defmodule SleepRescueWeb.Router do
   scope "/api/v1", SleepRescueWeb.Api.V1, as: :api_v1 do
     pipe_through :api
 
-    resources "/registration", UserController, singleton: true, only: [:create]
+    resources "/user/create", UserController, singleton: true, only: [:create]
     resources "/session", SessionController, singleton: true, only: [:create, :delete]
     post "/session/renew", SessionController, :renew
     post "/password/reset", PasswordResetController, :reset
     patch "/password/update/:token", PasswordResetController, :update
-    get "/confirm/:token", UserController, :confirm_email
+    get "/confirmation/token/:token", ConfirmationController, :confirm_email
   end
 
   scope "/api/v1", SleepRescueWeb.Api.V1, as: :api_v1 do
     pipe_through [:api, :api_unconfirmed]
-    get "/confirmation/resend", UserController, :resend_email_confirmation
+    get "/confirmation/resend", ConfirmationController, :resend_email_confirmation
+    get "/confirmation/status", ConfirmationController, :get_confirmation_status
+    get "/user/reset", UserController, :cancel_email_change
+    resources "/user", UserController, singleton: true, only: [:show]
   end
 
 
   scope "/api/v1", SleepRescueWeb.Api.V1, as: :api_v1 do
     pipe_through [:api, :api_confirmed]
-    resources "/user", UserController, singleton: true, only: [:show, :delete, :update]
+    resources "/user", UserController, singleton: true, only: [:delete, :update]
   end
 
 end

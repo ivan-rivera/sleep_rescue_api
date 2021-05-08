@@ -60,4 +60,4 @@ function set_password_via_reset_token {
   http PATCH $BACKEND/api/v1/password/update/$1 password=$2 password_confirmation=$3
 }
 
-
+SFMyNTY.NDhmMGY3MDYtOGVlMi00NjA3LWFjOWItNDY1MWRlNDNmODFm.sav1BZL8OQX_XjEswp3iQqvTTrMZbeYUAP8fB4eUbHg

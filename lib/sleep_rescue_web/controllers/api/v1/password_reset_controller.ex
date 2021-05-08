@@ -16,7 +16,7 @@ defmodule SleepRescueWeb.Api.V1.PasswordResetController do
     case PowResetPassword.Plug.create_reset_token(conn, params) do
       {:ok, %{token: token}, _} ->
         case email
-          |> Email.reset_email(token) # TODO look into timeouts
+          |> Email.reset_email(token)
           |> Mailer.deliver_later() do
             {:ok, _} -> json(conn, %{data: %{message: "message sent"}})
             _ -> Helpers.json_error(conn, 500, "unable to send the message")

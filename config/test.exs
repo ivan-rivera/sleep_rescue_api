@@ -18,7 +18,7 @@ config :sleep_rescue, SleepRescueWeb.Endpoint,
   http: [port: 4002],
   server: false
 
-config :my_app, SleepRescue.Mail.Mailer,
+config :sleep_rescue, SleepRescue.Mail.Mailer,
   adapter: Bamboo.TestAdapter
 
 # Print only warnings and errors during test

@@ -9,11 +9,7 @@ defmodule SleepRescueWeb.Api.V1.UserController do
   alias Ecto.Changeset
   alias Plug.Conn
   alias SleepRescueWeb.ErrorHelpers
-  alias SleepRescueWeb.Helpers
-  alias SleepRescue.Mail.Mailer
-  alias SleepRescue.Email
-  import PowEmailConfirmation.Plug, only: [load_user_by_token: 2]
-  import PowEmailConfirmation.Ecto.Context, only: [confirm_email: 3]
+  import SleepRescueWeb.Helpers, only: [json_error: 3, json_error: 4, send_confirmation_email: 2]
 
   @spec show(Conn.t(), map()) :: Conn.t()
   def show(conn, _params) do
@@ -43,34 +39,11 @@ defmodule SleepRescueWeb.Api.V1.UserController do
              %{email: [email_error | _other]} -> "Email problems: " <> email_error
              _ -> "server error"
            end
-           Helpers.json_error(conn, 500, message, errors)
+           json_error(conn, 500, message, errors)
        end
   end
 
-  def create(conn, _params), do: Helpers.json_error(conn, 400, "malformed request")
-
-
-  @doc """
-  Given a confirmation token, mark that that the user has confirmed their email
-  """
-  @spec confirm_email(Conn.t(), map()) :: Conn.t()
-  def confirm_email(conn, %{"token" => token}) do
-    with  {:ok, conn}  <- load_user_by_token(conn, token),
-          {:ok, _user} <- confirm_email(conn.assigns.confirm_email_user, %{}, otp_app: :sleep_rescue) do
-      json(conn, %{success: %{message: "Email confirmed"}})
-    else
-      _ -> Helpers.json_error(conn, 401, "Invalid confirmation code")
-    end
-  end
-
-
-  @doc """
-  Allow users to request another confirmation email in case they didnt receive the first one
-  """
-  @spec resend_email_confirmation(Conn.t(), map()) :: Conn.t()
-  def resend_email_confirmation(conn, _params) do
-    send_confirmation_email(conn, conn.assigns.current_user)
-  end
+  def create(conn, _params), do: json_error(conn, 400, "malformed request")
 
 
   @doc """
@@ -82,15 +55,15 @@ defmodule SleepRescueWeb.Api.V1.UserController do
     with  user when not is_nil(user) <- conn.assigns.current_user,
           true <- User.verify_password(user, password),
           {:ok, _u} <- User.delete(user.id) do
-            json(conn, %{data: %{message: "success"}})
+            json(conn, %{message: "success"})
     else
-          nil -> Helpers.json_error(conn, 404, "user not found")
-          false -> Helpers.json_error(conn, 401, "wrong password")
-          _ -> Helpers.json_error(conn, 500, "server error")
+          nil -> json_error(conn, 404, "user not found")
+          false -> json_error(conn, 401, "wrong password")
+          _ -> json_error(conn, 500, "server error")
     end
   end
 
-  def delete(conn, _params), do: Helpers.json_error(conn, 400, "no password provided")
+  def delete(conn, _params), do: json_error(conn, 400, "no password provided")
 
 
   @doc """
@@ -98,28 +71,50 @@ defmodule SleepRescueWeb.Api.V1.UserController do
   This action can update users email and or password
   """
   @spec update(Conn.t(), map()) :: Conn.t()
-  def update(conn, params) do
+  def update(conn, params = %{"email" => email}) do
+    case Repo.get_by(User, email: email) do
+      nil -> update_user(conn, params)
+      _ -> json_error(conn, 400, "This email has already been taken")
+    end
+  end
+
+  def update(conn, params), do: update_user(conn, params)
+
+
+  @doc """
+  Allow users to cancel their email change request.
+  This may help in situations where the user accidentally types the wrong email
+  address that they don't have access to and they get locked out of their account
+  """
+  @spec cancel_email_change(Conn.t(), map()) :: Conn.t()
+  def cancel_email_change(conn, _params) do
+    if is_nil(conn.assigns.current_user.email_confirmed_at) do
+      json_error(conn, 400, "Cannot cancel, the primary email has not been confirmed")
+    else
+      case conn.assigns.current_user
+           |> Ecto.Changeset.change(%{unconfirmed_email: nil})
+           |> Repo.update() do
+        {:ok, _user} -> json(conn, %{message: "success"})
+        {:error, _cs} ->
+          json_error(conn, 500, "Failed undo email change request")
+      end
+    end
+  end
+
+
+  @spec update_user(Conn.t(), map()) :: Conn.t()
+  defp update_user(conn, params) do
     case conn.assigns.current_user
          |> User.changeset(params)
          |> Repo.update() do
       {:ok, user} ->
         unless is_nil(user.unconfirmed_email), do: send_confirmation_email(conn, user)
-        json(conn, %{data: %{message: "success"}})
-      {:error, u} ->
-        IO.inspect(u)
-        Helpers.json_error(conn, 400, "failed to update user")
-    end
-  end
-
-
-  @spec send_confirmation_email(Conn.t(), map()) :: Conn.t()
-  defp send_confirmation_email(conn, user) do
-    token = PowEmailConfirmation.Plug.sign_confirmation_token(conn, user)
-    case (user.unconfirmed_email || user.email)
-       |> Email.confirmation_email(token)
-       |> Mailer.deliver_later() do
-      {:ok, _} -> json(conn, %{data: %{message: "message sent"}})
-      _ -> Helpers.json_error(conn, 500, "unable to send the message")
+        json(conn, %{message: "success"})
+      {:error, user} ->
+        case Keyword.has_key?(user.errors, :current_password) do
+          true -> json_error(conn, 400, "Wrong password")
+          false -> json_error(conn, 400, "Server error")
+        end
     end
   end
 
