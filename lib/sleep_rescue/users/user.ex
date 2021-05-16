@@ -8,7 +8,7 @@ defmodule SleepRescue.Users.User do
   @derive {Jason.Encoder, only: [:id, :email, :inserted_at, :unconfirmed_email]}
   schema "users" do
     pow_user_fields()
-
+    has_many :nights, SleepRescue.Users.Night
     timestamps()
   end
 
