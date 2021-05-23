@@ -1,9 +1,6 @@
 defmodule SleepRescueWeb.Router do
   use SleepRescueWeb, :router
 
-  # TODO: create a new plug/pipeline to check if the user has confirmed their email
-  # TODO: create a new endpoint to check whether the user has confirmed their email
-
   if Mix.env == :dev do
     forward "/sent_emails", Bamboo.SentEmailViewerPlug
   end
@@ -45,6 +42,8 @@ defmodule SleepRescueWeb.Router do
   scope "/api/v1", SleepRescueWeb.Api.V1, as: :api_v1 do
     pipe_through [:api, :api_confirmed]
     resources "/user", UserController, singleton: true, only: [:delete, :update]
+    patch "/night", NightController, :update
+    get "/night", NightController, :show
   end
 
 end

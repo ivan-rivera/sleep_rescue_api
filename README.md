@@ -1,10 +1,9 @@
 # SleepRescue
 
 TODO:
-- tests
-- merge
-- GitHub + CI
-- The main page
+- controller test
+- mock API requests
+- Connect API to the frontend
 - Supporting pages
 - Write up
 - header pages
