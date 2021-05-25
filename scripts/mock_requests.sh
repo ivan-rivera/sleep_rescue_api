@@ -60,4 +60,16 @@ function set_password_via_reset_token {
   http PATCH $BACKEND/api/v1/password/update/$1 password=$2 password_confirmation=$3
 }
 
-SFMyNTY.NDhmMGY3MDYtOGVlMi00NjA3LWFjOWItNDY1MWRlNDNmODFm.sav1BZL8OQX_XjEswp3iQqvTTrMZbeYUAP8fB4eUbHg
+function update_night {
+  http PATCH $BACKEND/api/v1/night \
+  "Authorization: $1" \
+  date=$2 \
+  night:="{ \"slept\": $3, \"sleep_attempt_timestamp\": $4, \"final_awakening_timestamp\": $5, \"up_timestamp\": $6, \"falling_asleep_duration\": $7, \"night_awakenings_duration\": $8, \"rating\": $9 }"
+}
+
+function show_night {
+  http GET $BACKEND/api/v1/night/$2 \
+  "Authorization: $1"
+}
+
+SFMyNTY.YjE1NzkwZmUtMjA4My00NzcwLWI0MzItYWNmZTJlYWE0M2Ex.1ThEFGvRyoHqOkmYQ3l881ni6a9ybea_yy6nQ33Bf_k

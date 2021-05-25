@@ -6,6 +6,14 @@ defmodule SleepRescue.Users.Night do
   import Ecto.Query, only: [from: 2]
 
   @tomorrow Date.utc_today |> Date.add(1)
+  @integer_columns [
+    "sleep_attempt_timestamp",
+    "final_awakening_timestamp",
+    "up_timestamp",
+    "falling_asleep_duration",
+    "night_awakenings_duration",
+    "rating"
+  ]
 
   @derive {Jason.Encoder, except: [:__meta__, :__struct__]}
   schema "nights" do
@@ -94,7 +102,7 @@ defmodule SleepRescue.Users.Night do
   Given a user, from date (usually tomorrow) and how far back do we want to look, retrieve
   all nightly records as a list of nights
   """
-  @spec list_nights(%User{}, DateTime.t(), integer()) :: list(%__MODULE__{})
+  @spec list_nights(%User{}, integer(), DateTime.t()) :: list(%__MODULE__{})
   def list_nights(%User{} = user, n_days_back \\ 180, from_date \\ @tomorrow) do
     last_date = from_date
                 |> Date.add(-n_days_back)
@@ -106,10 +114,37 @@ defmodule SleepRescue.Users.Night do
   @spec convert(map()) :: map()
   defp convert(attrs) do
     attrs
-      |> Enum.filter(fn {k, _} -> String.contains?(k, "timestamp") end)
-      |> Enum.map(fn {k, v} -> {String.replace(k, "timestamp", "datetime"), to_datetime(v)} end)
-      |> Enum.into(%{})
-      |> Map.merge(attrs)
+    |> slept_as_boolean
+    |> cast_integers
+    |> timestamp_to_datetime
+  end
+
+  @spec slept_as_boolean(map()) :: map()
+  defp slept_as_boolean(attrs) do
+    if Map.has_key?(attrs, "slept") do
+      %{attrs | "slept" => attrs["slept"] || attrs["slept"] == "true"}
+    else
+      attrs
+    end
+  end
+
+  @spec timestamp_to_datetime(map()) :: map()
+  defp timestamp_to_datetime(attrs) do
+    attrs
+    |> Enum.filter(fn {k, _} -> String.contains?(k, "timestamp") end)
+    |> Enum.map(fn {k, v} -> {String.replace(k, "timestamp", "datetime"), to_datetime(v)} end)
+    |> Enum.into(%{})
+    |> Map.merge(attrs)
+  end
+
+  @spec cast_integers(map()) :: map()
+  defp cast_integers(attrs) do
+    int_attrs = attrs
+    |> Enum.filter(fn {k, _} -> k in @integer_columns end)
+    |> Enum.map(fn {k, v} -> if is_integer(k), do: {k, v}, else: {k, String.to_integer(v)} end)
+    |> Enum.into(%{})
+    attrs
+    |> Map.merge(int_attrs)
   end
 
   @spec to_datetime(integer()) :: NaiveDateTime.t()

@@ -14,6 +14,8 @@ alias SleepRescueWeb
 alias SleepRescue.Repo
 alias SleepRescue.Users.{User, Night}
 
+now = DateTime.utc_now |> DateTime.truncate(:second)
+
 gen_night_data = fn (
       slept,
       sleep_attempt_timestamp,
@@ -62,5 +64,10 @@ users = [
 ]
 
 IO.puts "creating user data..."
-users |> Enum.map(fn changeset -> User.create(changeset) end)
-users |> Enum.map(fn %{email: email} -> create_user_nights.(email) end)
+users |> Enum.map(fn changeset ->
+  User.create(changeset)
+  Repo.get_by(User, email: changeset.email)
+  |> Ecto.Changeset.change(%{email_confirmed_at: now})
+  |> Repo.update!
+  create_user_nights.(changeset.email)
+end)

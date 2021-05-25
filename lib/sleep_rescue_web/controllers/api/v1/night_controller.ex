@@ -6,7 +6,7 @@ defmodule SleepRescueWeb.Api.V1.NightController do
   use SleepRescueWeb, :controller
   alias SleepRescue.Users.Night
   alias Plug.Conn
-  import SleepRescueWeb.Helpers, only: [json_error: 3]
+  import SleepRescueWeb.Helpers, only: [json_error: 4]
 
 
   @doc """
@@ -14,11 +14,12 @@ defmodule SleepRescueWeb.Api.V1.NightController do
   """
   @spec show(Conn.t(), map()) :: Conn.t()
   def show(conn, %{"history" => history}) do
-    case Night.list_nights(conn.assigns.current_user, n_days_back: history+1) do
-      [] -> json(conn, %{message: "no data", data: []})
+    {history_int, ""} = Integer.parse(history)
+    case Night.list_nights(conn.assigns.current_user, history_int+1) do
+      [] -> json(conn, %{"data" => []})
       nights ->
         data = nights |> Enum.map(&Night.summarise_night/1)
-        json(conn, %{message: "success", data: data})
+        json(conn, %{"data" => data})
     end
   end
 
@@ -27,10 +28,15 @@ defmodule SleepRescueWeb.Api.V1.NightController do
   Create or update a night
   """
   @spec update(Conn.t(), map()) :: Conn.t()
-  def update(conn, %{"date" => date, "night" => night_params}) do
+  def update(conn, %{"date" => date, "night" => night_params}) when is_map(night_params) do
     case Night.create_or_update(conn.assigns.current_user, date, night_params) do
       {:ok, _} -> json(conn, %{message: "success"})
-      {:error, _} -> json_error(conn, 500, "failed to update")
+      {:error, cs} ->
+        errors = cs.errors
+                 |> Enum.into(%{})
+                 |> Enum.map(fn {key, {message, _}} -> "#{Atom.to_string(key)}: #{message}" end)
+        json_error(conn, 400, "input error", errors)
+      _ -> json_error(conn, 500, "server error", [])
     end
   end
 
