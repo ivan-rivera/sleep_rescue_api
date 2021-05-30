@@ -79,23 +79,29 @@ defmodule SleepRescue.Users.Night do
   """
   @spec summarise_night(%__MODULE__{}) :: map()
   def summarise_night(%__MODULE__{} = night) when night.slept do
-    %{"mins_to_fall_asleep" => night.falling_asleep_duration,
-      "mins_awake_at_night" => night.night_awakenings_duration,
-      "mins_awake" => get_minutes_awake(night),
-      "mins_slept" => get_minutes_slept(night),
-      "efficiency" => get_efficiency(night),
-      "rating" => night.rating,
-      "slept" => true}
+    {
+      night.date,
+      %{"mins_to_fall_asleep" => night.falling_asleep_duration,
+        "mins_awake_at_night" => night.night_awakenings_duration,
+        "mins_awake" => get_minutes_awake(night),
+        "mins_slept" => get_minutes_slept(night),
+        "efficiency" => get_efficiency(night),
+        "rating" => night.rating,
+        "slept" => true}
+    }
   end
 
   def summarise_night(%__MODULE__{} = night) when not night.slept do
-    %{"mins_to_fall_asleep" => 0,
-      "mins_awake_at_night" => 0,
-      "mins_awake" => 0,
-      "mins_slept" => 0,
-      "efficiency" => 0,
-      "rating" => 0,
-      "slept" => false}
+    {
+      night.date,
+      %{"mins_to_fall_asleep" => 0,
+        "mins_awake_at_night" => 0,
+        "mins_awake" => 0,
+        "mins_slept" => 0,
+        "efficiency" => 0,
+        "rating" => 0,
+        "slept" => false}
+    }
   end
 
   @doc """
@@ -141,7 +147,13 @@ defmodule SleepRescue.Users.Night do
   defp cast_integers(attrs) do
     int_attrs = attrs
     |> Enum.filter(fn {k, _} -> k in @integer_columns end)
-    |> Enum.map(fn {k, v} -> if is_integer(k), do: {k, v}, else: {k, String.to_integer(v)} end)
+    |> Enum.map(fn {k, v} ->
+      try do
+        {k, String.to_integer(v)}
+      rescue
+        _ -> {k, v}
+      end
+    end)
     |> Enum.into(%{})
     attrs
     |> Map.merge(int_attrs)

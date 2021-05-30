@@ -16,9 +16,11 @@ defmodule SleepRescueWeb.Api.V1.NightController do
   def show(conn, %{"history" => history}) do
     {history_int, ""} = Integer.parse(history)
     case Night.list_nights(conn.assigns.current_user, history_int+1) do
-      [] -> json(conn, %{"data" => []})
+      [] -> json(conn, %{"data" => %{}})
       nights ->
-        data = nights |> Enum.map(&Night.summarise_night/1)
+        data = nights
+               |> Enum.map(&Night.summarise_night/1)
+               |> Enum.into(%{})
         json(conn, %{"data" => data})
     end
   end

@@ -72,4 +72,3 @@ function show_night {
   "Authorization: $1"
 }
 
-SFMyNTY.YjE1NzkwZmUtMjA4My00NzcwLWI0MzItYWNmZTJlYWE0M2Ex.1ThEFGvRyoHqOkmYQ3l881ni6a9ybea_yy6nQ33Bf_k

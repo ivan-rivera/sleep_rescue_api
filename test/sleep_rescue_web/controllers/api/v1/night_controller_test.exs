@@ -68,7 +68,7 @@ defmodule SleepRescueWeb.Api.V1.NightControllerTest do
               |> Plug.Conn.put_req_header("authorization", token)
               |> get(Routes.api_v1_night_path(conn, :show, 30))
       assert json = json_response(conn, 200)
-      [%{"rating" => rating}] = json["data"]
+      %{"2021-05-01" => %{"rating" => rating}} = json["data"]
       assert rating == 10
     end
 
@@ -103,7 +103,7 @@ defmodule SleepRescueWeb.Api.V1.NightControllerTest do
              |> Plug.Conn.put_req_header("authorization", token)
              |> get(Routes.api_v1_night_path(conn, :show, 1))
       assert json = json_response(conn, 200)
-      assert json["data"] == []
+      assert json["data"] == %{}
     end
 
     test "with results", %{conn: conn, token: token} do
@@ -111,7 +111,7 @@ defmodule SleepRescueWeb.Api.V1.NightControllerTest do
             |> Plug.Conn.put_req_header("authorization", token)
             |> get(Routes.api_v1_night_path(conn, :show, 30))
       assert json = json_response(conn, 200)
-      [%{"rating" => rating}] = json["data"]
+      %{"2021-05-01" => %{"rating" => rating}} = json["data"]
       assert rating == 6
     end
 
