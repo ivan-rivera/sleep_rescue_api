@@ -72,3 +72,19 @@ function show_night {
   "Authorization: $1"
 }
 
+function create_goal {
+  http POST $BACKEND/api/v1/goal \
+  "Authorization: $1" \
+  metric=$2 \
+  duration:=$3 \
+  threshold:=$4
+}
+
+function list_goals {
+  http GET $BACKEND/api/v1/goal "Authorization: $1"
+}
+
+function delete_goal {
+  http DELETE $BACKEND/api/v1/goal "Authorization: $1" id:=$2
+}
+

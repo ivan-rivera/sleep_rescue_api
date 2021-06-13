@@ -74,6 +74,20 @@ defmodule SleepRescue.Users.Night do
   end
 
   @doc """
+  Average attributes of a list of nights
+  """
+  def aggregate_nights(nights) do
+    nights
+    |> Enum.map(fn {_, n} -> Map.to_list(n) end)
+    |> List.flatten()
+    |> Enum.filter(fn {k, _} -> k != "slept" end)
+    |> Enum.map(fn {k, v} -> %{key: k, value: v} end)
+    |> Enum.group_by(fn %{key: k, value: _v} -> k end, fn %{key: _k, value: v} -> v end)
+    |> Enum.map(fn {k, v} -> {k, Enum.sum(v) / length(v)} end)
+    |> Enum.into(%{})
+  end
+
+  @doc """
   Get summary statistics per night. It is an interface that allows us to get useful info
   out of the nightly records. These results are expected to be passed to the frontend
   """

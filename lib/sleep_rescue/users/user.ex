@@ -1,5 +1,6 @@
 defmodule SleepRescue.Users.User do
   alias SleepRescue.Repo
+  alias SleepRescue.Users
   use Ecto.Schema
   use Pow.Ecto.Schema
   use Pow.Extension.Ecto.Schema,
@@ -8,7 +9,8 @@ defmodule SleepRescue.Users.User do
   @derive {Jason.Encoder, only: [:id, :email, :inserted_at, :unconfirmed_email]}
   schema "users" do
     pow_user_fields()
-    has_many :nights, SleepRescue.Users.Night
+    has_many :nights, Users.Night
+    has_many :goals, Users.Goal
     timestamps()
   end
 
@@ -21,7 +23,8 @@ defmodule SleepRescue.Users.User do
   @doc """
   User creation mechanism. Note that it is not used by the registration
   controller, it uses the Pow plug instead. This method is used for dummy
-  data creation or whenever you need to create a user outside the API call
+  data creation or whenever you need to create a user outside the API call.
+  Note that we are also creating a set of default goals for every new user
   """
   @spec create(map()) :: {:ok, map()} | {:error, map()}
   def create(attrs) do
@@ -29,7 +32,9 @@ defmodule SleepRescue.Users.User do
     |> changeset(attrs)
     |> case do
       changeset = %{valid?: true} ->
-        Repo.insert(changeset)
+        with {:ok, user} <- Repo.insert(changeset) do
+          Users.Goal.create_default_goals(user)
+        end
       %{valid?: false, errors: e} ->
         {:error, %{message: "failed to create user", errors: e}}
        end

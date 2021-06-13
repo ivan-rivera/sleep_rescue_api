@@ -42,6 +42,7 @@ defmodule SleepRescueWeb.Router do
   scope "/api/v1", SleepRescueWeb.Api.V1, as: :api_v1 do
     pipe_through [:api, :api_confirmed]
     resources "/user", UserController, singleton: true, only: [:delete, :update]
+    resources "/goal", GoalController, singleton: true, only: [:show, :create, :delete]
     patch "/night", NightController, :update
     get "/night/:history", NightController, :show
   end

@@ -16,20 +16,26 @@ alias SleepRescue.Users.{User, Night}
 
 now = DateTime.utc_now |> DateTime.truncate(:second)
 
+to_timestamp = fn (datetime) ->
+  datetime
+  |> DateTime.from_naive!("Etc/UTC")
+  |> DateTime.to_unix()
+end
+
 gen_night_data = fn (
       slept,
-      sleep_attempt_timestamp,
-      final_awakening_timestamp,
-      up_timestamp,
+      sleep_attempt_datetime,
+      final_awakening_datetime,
+      up_datetime,
       falling_asleep_duration,
       night_awakenings_duration,
       rating
     ) ->
   %{
     "slept" => slept,
-    "sleep_attempt_timestamp" => sleep_attempt_timestamp,
-    "final_awakening_timestamp" => final_awakening_timestamp,
-    "up_timestamp" => up_timestamp,
+    "sleep_attempt_timestamp" => to_timestamp.(sleep_attempt_datetime),
+    "final_awakening_timestamp" => to_timestamp.(final_awakening_datetime),
+    "up_timestamp" => to_timestamp.(up_datetime),
     "falling_asleep_duration" => falling_asleep_duration,
     "night_awakenings_duration" => night_awakenings_duration,
     "rating" => rating
@@ -38,14 +44,14 @@ end
 
 nights = %{
   "test2@mail.com" => [
-    {~D[2021-05-01], gen_night_data.(true, 1619906400, 1619938800, 1619940600, 15, 60, 6)},
-    {~D[2021-05-02], gen_night_data.(true, 1619998200, 1620023400, 1620024300, 30, 30, 7)},
-    {~D[2021-05-03], gen_night_data.(true, 1620081900, 1620107100, 1620111600, 5, 10, 8)}
+    {~D[2021-06-11], gen_night_data.(true, ~N[2021-06-11 22:00:00], ~N[2021-06-12 07:00:00], ~N[2021-06-12 07:15:00], 15, 60, 6)},
+    {~D[2021-06-10], gen_night_data.(true, ~N[2021-06-10 23:00:00], ~N[2021-06-11 06:00:00], ~N[2021-06-11 07:30:00], 30, 30, 7)},
+    {~D[2021-06-09], gen_night_data.(true, ~N[2021-06-10 00:30:00], ~N[2021-06-10 06:00:00], ~N[2021-06-10 08:15:00], 5, 10, 8)}
   ],
   "test3@mail.com" => [
-    {~D[2021-05-01], gen_night_data.(true, 1619905500, 1619941500, 1619943300, 120, 60, 4)},
-    {~D[2021-05-02], gen_night_data.(true, 1620000900, 1620026100, 1620027000, 30, 180, 3)},
-    {~D[2021-05-03], gen_night_data.(true, 1620091800, 1620117900, 1620118800, 60, 60, 5)}
+    {~D[2021-06-01], gen_night_data.(true, ~N[2021-06-01 23:30:00], ~N[2021-06-02 06:30:00], ~N[2021-06-02 07:30:00], 120, 60, 4)},
+    {~D[2021-06-02], gen_night_data.(true, ~N[2021-06-03 00:15:00], ~N[2021-06-03 07:00:00], ~N[2021-06-03 07:30:00], 30, 180, 3)},
+    {~D[2021-06-03], gen_night_data.(true, ~N[2021-06-03 23:30:00], ~N[2021-06-04 06:00:00], ~N[2021-06-11 06:30:00], 60, 60, 5)}
   ]
 }
 
