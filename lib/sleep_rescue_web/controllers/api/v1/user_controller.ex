@@ -5,7 +5,7 @@ defmodule SleepRescueWeb.Api.V1.UserController do
 
   use SleepRescueWeb, :controller
   alias SleepRescue.Repo
-  alias SleepRescue.Users.User
+  alias SleepRescue.Users.{User, Night}
   alias Ecto.Changeset
   alias Plug.Conn
   alias SleepRescueWeb.ErrorHelpers
@@ -13,7 +13,10 @@ defmodule SleepRescueWeb.Api.V1.UserController do
 
   @spec show(Conn.t(), map()) :: Conn.t()
   def show(conn, _params) do
-    json(conn, %{user: Pow.Plug.current_user(conn)})
+    json(conn, %{
+      user: Pow.Plug.current_user(conn),
+      nights: Night.list_nights(conn.assigns.current_user, 9999) |> length
+    })
   end
 
 
