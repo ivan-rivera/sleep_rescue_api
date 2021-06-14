@@ -87,4 +87,3 @@ function list_goals {
 function delete_goal {
   http DELETE $BACKEND/api/v1/goal "Authorization: $1" id:=$2
 }
-

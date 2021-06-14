@@ -40,13 +40,13 @@ defmodule SleepRescue.Users.NightTest do
   describe "list_goals/2" do
 
     test "no nights recorded", %{user: user} do
-      assert [] = Goal.list_goals(user, Defaults.get_today)
+      assert {:ok, []} = Goal.list_goals(user, Defaults.get_today)
     end
 
     test "some nights recorded", %{user: user} do
       user |> Goal.create_goal(Defaults.get_valid_goal)
       Defaults.get_nights |> Enum.map(fn n -> insert_night(user, n) end)
-      assert [%{"actual" => 3.4166666666666665, "completed" => 3} | _t] = Goal.list_goals(user, Defaults.get_today)
+      assert {:ok, [%{"actual" => 3.0, "completed" => 2} | _t]} = Goal.list_goals(user, Defaults.get_today)
     end
 
   end

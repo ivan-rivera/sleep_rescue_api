@@ -54,14 +54,14 @@ defmodule SleepRescue.Users.Goal do
         max_duration = Enum.map(user_goals, fn g -> g.duration end) |> Enum.max()
         user_nights =
           user
-          |> Night.list_nights(max_duration + 1, today)
+          |> Night.list_nights(max_duration, today)
           |> Enum.map(&Night.summarise_night/1)
         { :ok,
           user_goals
           |> Enum.map(&Map.from_struct/1)
           |> Enum.map(fn g ->
             user_nights
-            |> Enum.filter(fn {d, _} -> Date.compare(d, Date.add(today, -g.duration - 1)) == :gt end)
+            |> Enum.filter(fn {d, _} -> Date.compare(d, Date.add(today, -g.duration)) == :gt end)
             |> assemble_report(g)
           end)
         }

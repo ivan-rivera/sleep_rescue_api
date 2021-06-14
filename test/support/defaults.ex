@@ -15,7 +15,7 @@ defmodule SleepRescue.Test.Support.Defaults do
   @goal_unknown_metric %{"metric" => "XYZ", "duration" => 30, "threshold" => 6}
   @goal_high_duration %{"metric" => "Sleep duration", "duration" => 1000, "threshold" => 6.5}
   @nights [
-    %{ # 7 hours slept (EXCLUDED)
+    %{ # 7 hours slept
       "slept" => true,
       "date" => ~D[2021-06-01],
       "sleep_attempt_timestamp" => to_timestamp.(~N[2021-06-01 22:30:00]),
@@ -49,7 +49,6 @@ defmodule SleepRescue.Test.Support.Defaults do
       "slept" => false,
       "date" => ~D[2021-06-06]
     },
-    # Average hours slept: (4.25 + 6 + 0) / 3 = 3.4166666666666665
   ]
 
   def get_today, do: @today
