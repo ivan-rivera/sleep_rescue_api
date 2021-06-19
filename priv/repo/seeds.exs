@@ -12,7 +12,7 @@
 
 alias SleepRescueWeb
 alias SleepRescue.Repo
-alias SleepRescue.Users.{User, Night}
+alias SleepRescue.Users.{User, Night, Thought}
 
 now = DateTime.utc_now |> DateTime.truncate(:second)
 
@@ -55,11 +55,24 @@ nights = %{
   ]
 }
 
+thoughts = %{
+  "test1@mail.com" => [%{"negative_thought" => "This is just a negative thought", "counter_thought" => "and this is a counter thought"}],
+  "test3@mail.com" => [%{"negative_thought" => "This is just another negative thought", "counter_thought" => "and this is a simple counter thought"}]
+}
+
 create_user_nights = fn (email) ->
   target_user = Repo.get_by(User, email: email)
   target_nights = Map.get(nights, email)
   unless is_nil(target_nights) do
     Enum.map(target_nights, fn {dt, args} -> Night.create_or_update(target_user, dt, args) end)
+  end
+end
+
+create_user_thought = fn (email) ->
+  target_user = Repo.get_by(User, email: email)
+  target_thoughts = Map.get(thoughts, email)
+  unless is_nil(target_thoughts) do
+    Enum.map(target_thoughts, fn(thought) -> Thought.create_thought(target_user, thought) end)
   end
 end
 
@@ -76,4 +89,5 @@ users |> Enum.map(fn changeset ->
   |> Ecto.Changeset.change(%{email_confirmed_at: now})
   |> Repo.update!
   create_user_nights.(changeset.email)
+  create_user_thought.(changeset.email)
 end)

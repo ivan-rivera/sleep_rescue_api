@@ -43,6 +43,7 @@ defmodule SleepRescueWeb.Router do
     pipe_through [:api, :api_confirmed]
     resources "/user", UserController, singleton: true, only: [:delete, :update]
     resources "/goal", GoalController, singleton: true, only: [:show, :create, :delete]
+    resources "/thought", ThoughtController, singleton: true, only: [:show, :create, :delete]
     patch "/night", NightController, :update
     get "/night/:history", NightController, :show
   end

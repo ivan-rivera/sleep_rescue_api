@@ -11,6 +11,7 @@ defmodule SleepRescue.Users.User do
     pow_user_fields()
     has_many :nights, Users.Night
     has_many :goals, Users.Goal
+    has_many :thoughts, Users.Thought
     timestamps()
   end
 

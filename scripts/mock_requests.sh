@@ -87,3 +87,18 @@ function list_goals {
 function delete_goal {
   http DELETE $BACKEND/api/v1/goal "Authorization: $1" id:=$2
 }
+
+function create_thought {
+  http POST $BACKEND/api/v1/thought \
+  "Authorization: $1" \
+  negative_thought=$2 \
+  counter_thought=$3
+}
+
+function delete_thought {
+  http DELETE $BACKEND/api/v1/thought "Authorization: $1" id:=$2
+}
+
+function list_thoughts {
+  http GET $BACKEND/api/v1/thought "Authorization: $1"
+}
