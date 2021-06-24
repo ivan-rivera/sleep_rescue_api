@@ -12,7 +12,7 @@
 
 alias SleepRescueWeb
 alias SleepRescue.Repo
-alias SleepRescue.Users.{User, Night, Thought}
+alias SleepRescue.Users.{User, Night, Thought, Isi}
 
 now = DateTime.utc_now |> DateTime.truncate(:second)
 
@@ -60,6 +60,59 @@ thoughts = %{
   "test3@mail.com" => [%{"negative_thought" => "This is just another negative thought", "counter_thought" => "and this is a simple counter thought"}]
 }
 
+
+isis = %{
+  "test1@mail.com" => [
+    { ~D[2021-07-01],
+      %{
+        "falling_asleep" => 2,
+        "staying_asleep" => 3,
+        "early_wake_up" => 1,
+        "sleep_pattern" => 3,
+        "noticeable" => 4,
+        "worried" => 0,
+        "interference" => 1
+      }
+    },
+    { ~D[2021-07-02],
+      %{
+        "falling_asleep" => 2,
+        "staying_asleep" => 3,
+        "early_wake_up" => 2,
+        "sleep_pattern" => 1,
+        "noticeable" => 0,
+        "worried" => 0,
+        "interference" => 2
+      }
+    },
+    { ~D[2021-07-03],
+      %{
+        "falling_asleep" => 1,
+        "staying_asleep" => 4,
+        "early_wake_up" => 2,
+        "sleep_pattern" => 4,
+        "noticeable" => 4,
+        "worried" => 0,
+        "interference" => 2
+      }
+    }
+  ],
+  "test2@mail.com" => [
+    {
+      ~D[2021-07-01],
+      %{
+        "falling_asleep" => 3,
+        "staying_asleep" => 1,
+        "early_wake_up" => 4,
+        "sleep_pattern" => 3,
+        "noticeable" => 4,
+        "worried" => 0,
+        "interference" => 1
+      }
+    }
+  ]
+}
+
 create_user_nights = fn (email) ->
   target_user = Repo.get_by(User, email: email)
   target_nights = Map.get(nights, email)
@@ -73,6 +126,14 @@ create_user_thought = fn (email) ->
   target_thoughts = Map.get(thoughts, email)
   unless is_nil(target_thoughts) do
     Enum.map(target_thoughts, fn(thought) -> Thought.create_thought(target_user, thought) end)
+  end
+end
+
+create_user_isi = fn (email) ->
+  target_user = Repo.get_by(User, email: email)
+  target_isi = Map.get(isis, email)
+  unless is_nil(target_isi) do
+    Enum.map(target_isi, fn {dt, args} -> Isi.create_or_update_isi(target_user, args, dt) end)
   end
 end
 
@@ -90,4 +151,5 @@ users |> Enum.map(fn changeset ->
   |> Repo.update!
   create_user_nights.(changeset.email)
   create_user_thought.(changeset.email)
+  create_user_isi.(changeset.email)
 end)

@@ -102,3 +102,22 @@ function delete_thought {
 function list_thoughts {
   http GET $BACKEND/api/v1/thought "Authorization: $1"
 }
+
+function update_isi {
+  http PATCH $BACKEND/api/v1/isi "Authorization: $1" \
+  falling_asleep:=$2 \
+  staying_asleep:=$3 \
+  early_wake_up:=$4 \
+  sleep_pattern:=$5 \
+  noticeable:=$6 \
+  worried:=$7 \
+  interference:=$8
+}
+
+function list_isis {
+  http GET $BACKEND/api/v1/isi "Authorization: $1"
+}
+
+function delete_isi {
+  http DELETE $BACKEND/api/v1/isi "Authorization: $1" id:=$2
+}

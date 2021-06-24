@@ -62,6 +62,25 @@ defmodule SleepRescue.Test.Support.Defaults do
     "negative_thought" => "this thought contains more than 150 characters which is the maximum allowed limit set in the database. This thought is not meant to pass the validation test!",
     "counter_thought" => "and this thought is valid but the one above is not"
   }
+  @valid_isi %{
+    "falling_asleep" => 0,
+    "staying_asleep" => 1,
+    "early_wake_up" => 2,
+    "sleep_pattern" => 3,
+    "noticeable" => 4,
+    "worried" => 0,
+    "interference" => 1
+  }
+  @invalid_isi %{
+    "falling_asleep" => 0,
+    "staying_asleep" => 1,
+    "early_wake_up" => 2,
+    "sleep_pattern" => 3,
+    "noticeable" => 4,
+    "worried" => 5,
+    "interference" => 6
+  }
+
 
   def get_today, do: @today
   def get_valid_goal, do: @goal_valid
@@ -71,5 +90,7 @@ defmodule SleepRescue.Test.Support.Defaults do
   def get_valid_thought, do: @valid_thought
   def get_short_thought, do: @short_thought
   def get_long_thought, do: @long_thought
+  def get_valid_isi, do: @valid_isi
+  def get_invalid_isi, do: @invalid_isi
 
 end

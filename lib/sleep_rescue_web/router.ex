@@ -44,6 +44,7 @@ defmodule SleepRescueWeb.Router do
     resources "/user", UserController, singleton: true, only: [:delete, :update]
     resources "/goal", GoalController, singleton: true, only: [:show, :create, :delete]
     resources "/thought", ThoughtController, singleton: true, only: [:show, :create, :delete]
+    resources "/isi", IsiController, singleton: true, only: [:show, :update, :delete]
     patch "/night", NightController, :update
     get "/night/:history", NightController, :show
   end

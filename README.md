@@ -15,6 +15,6 @@ TODO:
 - Readme update + spread the word
 
 Ideas for improvements:
-    - Take sleeping pills into account
     - Display all days in the dashboard (even ones that were not filled in)
     - Change nights default rating to 5 (and name it)
+    - Add features list to the sign up page

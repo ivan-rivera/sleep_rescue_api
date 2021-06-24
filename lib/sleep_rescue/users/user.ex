@@ -12,6 +12,7 @@ defmodule SleepRescue.Users.User do
     has_many :nights, Users.Night
     has_many :goals, Users.Goal
     has_many :thoughts, Users.Thought
+    has_many :isis, Users.Isi
     timestamps()
   end
 
