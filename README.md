@@ -1,7 +1,8 @@
 # SleepRescue
 
 TODO:
-- ISI
+- Display all days in the dashboard (even ones that were not filled in)
+- Change nights default rating to 5 (and name it)
 - Contact
 - Learning center (design nav + the big write-up + re-org -- move outside auth?)
 - header pages write up
@@ -15,6 +16,4 @@ TODO:
 - Readme update + spread the word
 
 Ideas for improvements:
-    - Display all days in the dashboard (even ones that were not filled in)
-    - Change nights default rating to 5 (and name it)
     - Add features list to the sign up page
