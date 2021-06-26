@@ -28,6 +28,7 @@ defmodule SleepRescueWeb.Router do
     post "/password/reset", PasswordResetController, :reset
     patch "/password/update/:token", PasswordResetController, :update
     get "/confirmation/token/:token", ConfirmationController, :confirm_email
+    post "/contact", ContactController, :send
   end
 
   scope "/api/v1", SleepRescueWeb.Api.V1, as: :api_v1 do
