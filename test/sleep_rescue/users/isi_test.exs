@@ -34,7 +34,6 @@ defmodule SleepRescue.Users.IsiTest do
       assert %{valid?: true} = Isi.changeset(%Isi{}, Defaults.get_valid_isi)
     end
     test "invalid changeset" do
-      # TODO: check boundaries
       assert %{valid?: false} = Isi.changeset(%Isi{}, Defaults.get_invalid_isi)
     end
   end

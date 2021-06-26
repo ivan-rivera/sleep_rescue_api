@@ -6,6 +6,7 @@ defmodule SleepRescueWeb.Api.V1.IsiController do
   use SleepRescueWeb, :controller
   alias SleepRescue.Users.Isi
   import SleepRescueWeb.Helpers, only: [json_error: 3]
+  require Logger
 
   @doc """
   List user ISIs
@@ -25,7 +26,9 @@ defmodule SleepRescueWeb.Api.V1.IsiController do
   def update(conn, attrs) do
     case Isi.create_or_update_isi(conn.assigns.current_user, attrs) do
       {:ok, _} -> json(conn, %{message: "success"})
-      _ -> json_error(conn, 500, "unable to process request")
+      _ ->
+        Logger.error("Failed to update ISI result #{inspect(attrs)}")
+        json_error(conn, 500, "unable to process request")
     end
   end
 
@@ -36,7 +39,9 @@ defmodule SleepRescueWeb.Api.V1.IsiController do
   def delete(conn, %{"id" => id}) do
     case Isi.delete_isi(conn.assigns.current_user, id) do
       {:ok, _} -> json(conn, %{message: "success"})
-      {:error, _} -> json_error(conn, 500, "unable to process request")
+      {:error, _} ->
+        Logger.error("Failed to delete ISI with ID #{id}")
+        json_error(conn, 500, "unable to process request")
     end
   end
 

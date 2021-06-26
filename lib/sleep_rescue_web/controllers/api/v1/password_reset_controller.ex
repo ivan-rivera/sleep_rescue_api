@@ -7,6 +7,7 @@ defmodule SleepRescueWeb.Api.V1.PasswordResetController do
   alias SleepRescueWeb.Helpers
   alias SleepRescue.Mail.Mailer
   alias SleepRescue.Email
+  require Logger
 
   @doc """
   Generate a password reset token
@@ -19,7 +20,9 @@ defmodule SleepRescueWeb.Api.V1.PasswordResetController do
           |> Email.reset_email(token)
           |> Mailer.deliver_later() do
             {:ok, _} -> json(conn, %{data: %{message: "message sent"}})
-            _ -> Helpers.json_error(conn, 500, "unable to send the message")
+            {:error, err} ->
+              Helpers.json_error(conn, 500, "unable to send the message")
+              Logger.error("Failed to send message to a user: #{inspect(err)}")
         end
       _ -> Helpers.json_error(conn, 404, "email not found")
     end
@@ -37,7 +40,10 @@ defmodule SleepRescueWeb.Api.V1.PasswordResetController do
           {:ok, _, conn} <- PowResetPassword.Plug.update_user_password(conn, params) do
       json(conn, %{data: %{email: conn.assigns.reset_password_user.email, message: "success"}})
     else
-      _ -> Helpers.json_error(conn, 500, "unable to update password")
+      _ ->
+        Helpers.json_error(conn, 500, "unable to update password")
+        Logger.metadata(user_id: conn.assigns.current_user.id)
+        Logger.error("Failed to update password")
     end
   end
 

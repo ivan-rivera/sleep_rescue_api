@@ -7,7 +7,7 @@ defmodule SleepRescueWeb.Api.V1.NightController do
   alias SleepRescue.Users.Night
   alias Plug.Conn
   import SleepRescueWeb.Helpers, only: [json_error: 4]
-
+  require Logger
 
   @doc """
   Show summary for a range of nights
@@ -31,14 +31,19 @@ defmodule SleepRescueWeb.Api.V1.NightController do
   """
   @spec update(Conn.t(), map()) :: Conn.t()
   def update(conn, %{"date" => date, "night" => night_params}) when is_map(night_params) do
+    Logger.metadata(user_id: conn.assigns.current_user.id)
     case Night.create_or_update(conn.assigns.current_user, date, night_params) do
-      {:ok, _} -> json(conn, %{message: "success"})
+      {:ok, _} ->
+        json(conn, %{message: "success"})
       {:error, cs} ->
         errors = cs.errors
                  |> Enum.into(%{})
                  |> Enum.map(fn {key, {message, _}} -> "#{Atom.to_string(key)}: #{message}" end)
+        Logger.info("failed to update a night with errors: #{errors}")
         json_error(conn, 400, "input error", errors)
-      _ -> json_error(conn, 500, "server error", [])
+      _ ->
+        Logger.info("Failed to update a night with server error")
+        json_error(conn, 500, "server error", [])
     end
   end
 

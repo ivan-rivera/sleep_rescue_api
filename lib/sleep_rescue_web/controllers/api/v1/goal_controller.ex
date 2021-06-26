@@ -6,6 +6,7 @@ defmodule SleepRescueWeb.Api.V1.GoalController do
   use SleepRescueWeb, :controller
   alias SleepRescue.Users.Goal
   import SleepRescueWeb.Helpers, only: [json_error: 3]
+  require Logger
 
   @doc """
   List user goals
@@ -14,7 +15,8 @@ defmodule SleepRescueWeb.Api.V1.GoalController do
   def show(conn, _attrs) do
     case Goal.list_goals(conn.assigns.current_user) do
       {:ok, results} -> json(conn, %{goals: results})
-      {:error, _} -> json_error(conn, 500, "unable to process request")
+      {:error, _} ->
+        json_error(conn, 500, "unable to process request")
     end
   end
 
@@ -25,7 +27,10 @@ defmodule SleepRescueWeb.Api.V1.GoalController do
   def create(conn, %{"metric" => _, "duration" => _, "threshold" => _} = attrs) do
     case Goal.create_goal(conn.assigns.current_user, attrs) do
       {:ok, _} -> json(conn, %{message: "success"})
-      _ -> json_error(conn, 500, "unable to process request")
+      _ ->
+        Logger.metadata(user_id: conn.assigns.current_user.id)
+        Logger.error("Failed to create a goal with settings: #{inspect(attrs)}")
+        json_error(conn, 500, "unable to process request")
     end
   end
 
@@ -36,7 +41,9 @@ defmodule SleepRescueWeb.Api.V1.GoalController do
   def delete(conn, %{"id" => id}) do
     case Goal.delete(id, conn.assigns.current_user) do
       {:ok, _} -> json(conn, %{message: "success"})
-      {:error, _} -> json_error(conn, 500, "unable to process request")
+      {:error, _} ->
+        Logger.error("Unable to delete goal ID #{id} for user #{conn.assigns.current_user.id}")
+        json_error(conn, 500, "unable to process request")
     end
   end
 

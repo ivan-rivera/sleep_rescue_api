@@ -6,6 +6,7 @@ defmodule SleepRescueWeb.Api.V1.ThoughtController do
   use SleepRescueWeb, :controller
   alias SleepRescue.Users.Thought
   import SleepRescueWeb.Helpers, only: [json_error: 3]
+  require Logger
 
   @doc """
   List user thoughts and counter thoughts
@@ -25,7 +26,9 @@ defmodule SleepRescueWeb.Api.V1.ThoughtController do
   def create(conn, %{"negative_thought" => _, "counter_thought" => _} = thought) do
     case Thought.create_thought(conn.assigns.current_user, thought) do
       {:ok, _} -> json(conn, %{message: "success"})
-      _ -> json_error(conn, 500, "unable to process request")
+      {:error, err} ->
+        Logger.error("Failed to create a thought: #{inspect(err)}")
+        json_error(conn, 500, "unable to process request")
     end
   end
 

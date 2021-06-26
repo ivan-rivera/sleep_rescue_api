@@ -9,7 +9,7 @@ defmodule SleepRescueWeb.Api.V1.ConfirmationController do
   import SleepRescueWeb.Helpers, only: [json_error: 3, send_confirmation_email: 2]
   import PowEmailConfirmation.Ecto.Context, only: [confirm_email: 3]
   import PowEmailConfirmation.Plug, only: [load_user_by_token: 2]
-
+  require Logger
 
   @doc """
   Given a confirmation token, mark that that the user has confirmed their email
@@ -20,7 +20,9 @@ defmodule SleepRescueWeb.Api.V1.ConfirmationController do
           {:ok, _user} <- confirm_email(conn.assigns.confirm_email_user, %{}, otp_app: :sleep_rescue) do
       json(conn, %{email: conn.assigns.confirm_email_user.email, message: "Email confirmed"})
     else
-      _ -> json_error(conn, 401, "Invalid confirmation code")
+      _ ->
+        Logger.error("invalid confirmation code")
+        json_error(conn, 401, "Invalid confirmation code")
     end
   end
 

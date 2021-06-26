@@ -10,6 +10,7 @@ defmodule SleepRescueWeb.Api.V1.UserController do
   alias Plug.Conn
   alias SleepRescueWeb.ErrorHelpers
   import SleepRescueWeb.Helpers, only: [json_error: 3, json_error: 4, send_confirmation_email: 2]
+  require Logger
 
   @spec show(Conn.t(), map()) :: Conn.t()
   def show(conn, _params) do
@@ -43,6 +44,7 @@ defmodule SleepRescueWeb.Api.V1.UserController do
              _ -> "server error"
            end
            json_error(conn, 500, message, errors)
+           Logger.error("Failed to create a user: #{inspect(errors)}")
        end
   end
 
