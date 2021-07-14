@@ -123,5 +123,7 @@
     <orderEntry type="library" name="bamboo" level="project" />
     <orderEntry type="library" name="ex_machina" level="project" />
     <orderEntry type="library" name="floki" level="project" />
+    <orderEntry type="library" name="myxql" level="project" />
+    <orderEntry type="library" name="tds" level="project" />
   </component>
 </module>

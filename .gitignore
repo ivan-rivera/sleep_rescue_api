@@ -28,3 +28,4 @@ sleep_rescue-*.tar
 /priv/static/
 /config/prod.secret.exs
 /.idea/
+/Mnesia.nonode@nohost/

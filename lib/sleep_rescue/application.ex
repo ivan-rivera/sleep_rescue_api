@@ -2,7 +2,6 @@ defmodule SleepRescue.Application do
   # See https://hexdocs.pm/elixir/Application.html
   # for more information on OTP Applications
   @moduledoc false
-  # TODO: review POW production checklist
 
   use Application
 
@@ -15,7 +14,8 @@ defmodule SleepRescue.Application do
       # Start the PubSub system
       {Phoenix.PubSub, name: SleepRescue.PubSub},
       # Start the Endpoint (http/https)
-      SleepRescueWeb.Endpoint
+      SleepRescueWeb.Endpoint,
+      Pow.Store.Backend.MnesiaCache
       # Start a worker by calling: SleepRescue.Worker.start_link(arg)
       # {SleepRescue.Worker, arg}
     ]

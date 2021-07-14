@@ -20,7 +20,7 @@ defmodule SleepRescue.MixProject do
   def application do
     [
       mod: {SleepRescue.Application, []},
-      extra_applications: [:logger, :runtime_tools, :bamboo]
+      extra_applications: [:logger, :runtime_tools, :bamboo, :mnesia]
     ]
   end
 

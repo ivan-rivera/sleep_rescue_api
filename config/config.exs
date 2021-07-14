@@ -6,14 +6,15 @@
 
 # General application configuration
 use Mix.Config
-# TODO: check production/deployment checklist before deploying live
 
 config :sleep_rescue,
   ecto_repos: [SleepRescue.Repo]
 
+host_url = if Mix.env == :prod, do: System.get_env("SR_API_URL"), else: "localhost"
+
 # Configures the endpoint
 config :sleep_rescue, SleepRescueWeb.Endpoint,
-  url: [host: "localhost"], # todo: change this in prod
+  url: [host: host_url],
   secret_key_base: (System.get_env("SECRET_KEY_BASE_SR") || raise "secret key base is missing"),
   render_errors: [view: SleepRescueWeb.ErrorView, accepts: ~w(json), layout: false],
   pubsub_server: SleepRescue.PubSub,
@@ -23,7 +24,8 @@ config :sleep_rescue, SleepRescueWeb.Endpoint,
 config :sleep_rescue, :pow,
   user: SleepRescue.Users.User,
   repo: SleepRescue.Repo,
-  extensions: [PowResetPassword, PowEmailConfirmation],
+  cache_store_backend: Pow.Store.Backend.MnesiaCache,
+  extensions: [PowResetPassword, PowEmailConfirmation, PowPersistentSession],
   controller_callbacks: Pow.Extension.Phoenix.ControllerCallbacks
 
 # Configures Elixir's Logger

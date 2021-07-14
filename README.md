@@ -2,19 +2,21 @@
 
 TODO:
 - Production checklist:
-    - Test locally on multiple devices
-        - Play around with the site on mobile
-        - Play around with the site on my work laptop
-        - Check the sign-up flow again + reset password (on multiple device simulators)
-        - Alena walk-through
-    - Frontend: set env vars
-    - Phoenix: remove secret config and use prod config
-    - Set up env variables in GitHub
+    - Alena walk-through
     - Elixir: set up a CI/CD pipeline
-    - Look into Google Analytics
-    - Domain: (1) buy it; (2) look into subdomains + CORS; (3) email domain
+    - Set up Google Analytics
+    - Get Heroku and deploy backend (connect to CI/CD); test it? Set up notifications; check persistence
+    - Domain: (1) set up subomain; (2) look into CORS; (3) email domain; (4) email domain?
     - Bamboo: (1) get a new email domain and (2) configure to use SendGrid
-    - Get Heroku and deploy backend (connect to CI/CD); test it? Set up notifications
     - Netlify: deploy frontend (connect to CI/CD)
     - Test flight!
 - Readme update + create a gif
+
+COST:
+    - Domain: ~10USD p/y
+    - Email: ~10USD p/y
+    - SendGrid: 180USD p/y (15USD p/m)
+    - Heroku server: 84USD p/y (7 p/m)
+    - Heroku DB: 108USD p/y (9 p/m)
+    - Netlify: FREE
+TOTAL: ~400USD p/y or 33USD p/m
