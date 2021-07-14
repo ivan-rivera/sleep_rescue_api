@@ -1,6 +1,5 @@
 name: ci
 
-
 on:
   push:
     branches:
@@ -37,6 +36,7 @@ jobs:
         with:
           elixir-version: ${{ matrix.elixir }}
           otp-version: ${{ matrix.otp }}
+          experimental-otp: true
       - name: Retrieve Cached Dependencies
         uses: actions/cache@v2
         id: mix-cache
