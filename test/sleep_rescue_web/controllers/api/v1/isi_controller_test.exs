@@ -1,4 +1,4 @@
-defmodule SleepRescueWeb.Api.V1.GoalControllerTest do
+defmodule SleepRescueWeb.Api.V1.IsiControllerTest do
 
   use SleepRescueWeb.ConnCase
   alias SleepRescue.Users.{Isi, User}
