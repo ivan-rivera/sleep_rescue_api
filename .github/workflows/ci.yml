@@ -13,7 +13,7 @@ env:
   MIX_ENV: test
   SECRET_KEY_BASE_SR: ${{ secrets.SECRET_KEY_BASE_SR }}
   LIVE_VIEW_SALT_SR: ${{ secrets.LIVE_VIEW_SALT_SR }}
-  SIGNING_SALT_SR: ${{ SIGNING_SALT_SR }}
+  SIGNING_SALT_SR: ${{ secrets.SIGNING_SALT_SR }}
 
 jobs:
   deps:
