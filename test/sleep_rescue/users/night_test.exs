@@ -1,5 +1,6 @@
 defmodule SleepRescue.Users.NightTest do
 
+  use ExUnit.Case, async: false
   use SleepRescue.DataCase
   alias SleepRescue.Repo
   alias SleepRescue.Users.{Night, User}
@@ -7,10 +8,9 @@ defmodule SleepRescue.Users.NightTest do
   @now DateTime.utc_now |> DateTime.truncate(:second)
 
   setup do
-
     user = %User{}
     |> User.changeset(%{
-      email: "user@mail.com",
+      email: "user99@mail.com",
       password: "secret123",
       password_confirmation: "secret123"
     })
@@ -107,7 +107,7 @@ defmodule SleepRescue.Users.NightTest do
 
   test "summarise_night/1", %{nights: nights} do
     [n1, n2, n3] = nights |> Enum.map(&Night.summarise_night/1)
-    assert n1 == %{
+    assert n1 == {~D[2021-05-01],  %{
       "efficiency" => 0.7222222222222222,
       "mins_to_fall_asleep" => 60,
       "mins_awake_at_night" => 30,
@@ -115,8 +115,8 @@ defmodule SleepRescue.Users.NightTest do
       "mins_slept" => 390,
       "rating" => 6,
       "slept" => true
-    }
-    assert n2 == %{
+    }}
+    assert n2 == {~D[2021-05-02], %{
       "efficiency" => 0.9111111111111111,
       "mins_to_fall_asleep" => 15,
       "mins_awake_at_night" => 10,
@@ -124,8 +124,8 @@ defmodule SleepRescue.Users.NightTest do
       "mins_slept" => 410,
       "rating" => 7,
       "slept" => true
-    }
-    assert n3 == %{
+    }}
+    assert n3 == {~D[2021-05-03], %{
       "efficiency" => 0,
       "mins_to_fall_asleep" => 0,
       "mins_awake_at_night" => 0,
@@ -133,7 +133,7 @@ defmodule SleepRescue.Users.NightTest do
       "mins_slept" => 0,
       "rating" => 0,
       "slept" => false
-    }
+    }}
   end
 
   defp insert_change(user, change) do

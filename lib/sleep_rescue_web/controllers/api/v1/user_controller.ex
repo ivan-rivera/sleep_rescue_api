@@ -43,8 +43,8 @@ defmodule SleepRescueWeb.Api.V1.UserController do
              %{email: [email_error | _other]} -> "Email problems: " <> email_error
              _ -> "server error"
            end
-           json_error(conn, 500, message, errors)
            Logger.error("Failed to create a user: #{inspect(errors)}")
+           json_error(conn, 500, message, errors)
        end
   end
 

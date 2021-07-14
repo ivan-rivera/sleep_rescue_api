@@ -1,5 +1,6 @@
-defmodule SleepRescue.Users.NightTest do
+defmodule SleepRescue.Users.GoalTest do
 
+  use ExUnit.Case, async: false
   use SleepRescue.DataCase
   alias SleepRescue.Repo
   alias SleepRescue.Users.{Night, User, Goal}
@@ -7,7 +8,7 @@ defmodule SleepRescue.Users.NightTest do
 
   @now DateTime.utc_now |> DateTime.truncate(:second)
   @user %{
-    email: "user@mail.com",
+    email: "user77@mail.com",
     password: "secret123",
     password_confirmation: "secret123"
   }

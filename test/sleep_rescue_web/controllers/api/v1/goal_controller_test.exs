@@ -1,12 +1,13 @@
 defmodule SleepRescueWeb.Api.V1.GoalControllerTest do
 
+  use ExUnit.Case, async: false
   use SleepRescueWeb.ConnCase
   alias SleepRescue.Users.{Goal, User}
   alias SleepRescue.Repo
   alias SleepRescue.Test.Support.Defaults
 
   @now DateTime.utc_now |> DateTime.truncate(:second)
-  @email "user@mail.com"
+  @email "user111@mail.com"
   @password "secret123"
   @login %{"user" => %{"email" => @email, "password" => @password}}
   @user %{
@@ -24,25 +25,21 @@ defmodule SleepRescueWeb.Api.V1.GoalControllerTest do
     %{user: user, token: conn_confirmed.private[:api_access_token]}
   end
 
-  describe "show/2" do
+  test "show/2 user with no goals", %{conn: conn, token: token} do
+    conn = conn
+           |> Plug.Conn.put_req_header("authorization", token)
+           |> get(Routes.api_v1_goal_path(conn, :show))
+    assert json = json_response(conn, 200)
+    assert json["goals"] == []
+  end
 
-    test "user with no goals", %{conn: conn, token: token} do
-      conn = conn
-             |> Plug.Conn.put_req_header("authorization", token)
-             |> get(Routes.api_v1_goal_path(conn, :show))
-      assert json = json_response(conn, 200)
-      assert json["goals"] == []
-    end
-
-    test "user with a goal", %{user: user, conn: conn, token: token} do
-      Goal.create_goal(user, Defaults.get_valid_goal)
-      conn = conn
-             |> Plug.Conn.put_req_header("authorization", token)
-             |> get(Routes.api_v1_goal_path(conn, :show))
-      assert json = json_response(conn, 200)
-      assert length(json["goals"]) == 1
-    end
-
+  test "show/2 user with a goal", %{user: user, conn: conn, token: token} do
+    Goal.create_goal(user, Defaults.get_valid_goal)
+    conn = conn
+           |> Plug.Conn.put_req_header("authorization", token)
+           |> get(Routes.api_v1_goal_path(conn, :show))
+    assert json = json_response(conn, 200)
+    assert length(json["goals"]) == 1
   end
 
   test "create/2", %{user: user, conn: conn, token: token} do

@@ -1,5 +1,6 @@
 defmodule SleepRescue.Users.ThoughtTest do
 
+  use ExUnit.Case, async: false
   use SleepRescue.DataCase
   alias SleepRescue.Repo
   alias SleepRescue.Users.{Thought, User}
@@ -7,7 +8,7 @@ defmodule SleepRescue.Users.ThoughtTest do
 
   @now DateTime.utc_now |> DateTime.truncate(:second)
   @user %{
-    email: "user@mail.com",
+    email: "user00@mail.com",
     password: "secret123",
     password_confirmation: "secret123"
   }
@@ -46,7 +47,7 @@ defmodule SleepRescue.Users.ThoughtTest do
 
   describe "list_thoughts/1" do
     test "user with no thoughts", %{user: user} do
-      assert [] = Thought.list_thoughts(user)
+      assert {:ok, []} = Thought.list_thoughts(user)
     end
     test "users with thoughts", %{user: user} do
       thought_pair = %{

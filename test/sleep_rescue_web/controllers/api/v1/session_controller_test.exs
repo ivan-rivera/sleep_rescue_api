@@ -1,6 +1,7 @@
 defmodule SleepRescueWeb.Api.V1.SessionControllerTest do
-  use SleepRescueWeb.ConnCase
 
+  use ExUnit.Case, async: true
+  use SleepRescueWeb.ConnCase
   alias SleepRescue.{Repo, Users.User}
 
   @password "secret1234"
@@ -34,7 +35,6 @@ defmodule SleepRescueWeb.Api.V1.SessionControllerTest do
 
       assert json = json_response(conn, 401)
       assert json["error"]["message"] == "Invalid email or password"
-      assert json["error"]["status"] == 401
     end
   end
 
@@ -65,7 +65,6 @@ defmodule SleepRescueWeb.Api.V1.SessionControllerTest do
 
       assert json = json_response(conn, 401)
       assert json["error"]["message"] == "Invalid token"
-      assert json["error"]["status"] == 401
     end
   end
 

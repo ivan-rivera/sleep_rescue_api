@@ -1,4 +1,6 @@
 defmodule SleepRescueWeb.Api.V1.UserControllerTest do
+
+  use ExUnit.Case, async: true
   use SleepRescueWeb.ConnCase
   alias SleepRescue.Users.User
   alias SleepRescue.Repo
@@ -62,7 +64,6 @@ defmodule SleepRescueWeb.Api.V1.UserControllerTest do
 
     test "with invalid params", %{conn: conn} do
       conn = post(conn, Routes.api_v1_user_path(conn, :create, @invalid_params))
-
       assert json = json_response(conn, 500)
       assert json["error"]["message"] == "Email problems: has invalid format"
     end

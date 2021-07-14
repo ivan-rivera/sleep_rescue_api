@@ -1,12 +1,14 @@
 defmodule SleepRescueWeb.Api.V1.ConfirmationControllerTest do
+
+  use ExUnit.Case, async: false
   use SleepRescueWeb.ConnCase
   alias SleepRescue.Users.User
   alias SleepRescue.Repo
 
   @now DateTime.utc_now |> DateTime.truncate(:second)
   @password "secret1234"
-  @confirmed_email "tester1@example.com"
-  @unconfirmed_email "tester2@example.com"
+  @confirmed_email "tester12@example.com"
+  @unconfirmed_email "tester23@example.com"
   @confirmed_valid_login %{"user" => %{"email" => @confirmed_email, "password" => @password}}
   @unconfirmed_valid_login %{"user" => %{"email" => @unconfirmed_email, "password" => @password}}
 

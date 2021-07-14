@@ -1,11 +1,12 @@
 defmodule SleepRescueWeb.Api.V1.NightControllerTest do
 
+  use ExUnit.Case, async: false
   use SleepRescueWeb.ConnCase
   alias SleepRescue.Users.User
   alias SleepRescue.Repo
 
   @now ~U[2021-05-10 00:00:00Z]
-  @email "tester1@example.com"
+  @email "tester99@example.com"
   @password "secret1234"
   @login %{"user" => %{"email" => @email, "password" => @password}}
   @valid_input %{
@@ -66,7 +67,7 @@ defmodule SleepRescueWeb.Api.V1.NightControllerTest do
       }))
       conn = conn
               |> Plug.Conn.put_req_header("authorization", token)
-              |> get(Routes.api_v1_night_path(conn, :show, 30))
+              |> get(Routes.api_v1_night_path(conn, :show, 9999))
       assert json = json_response(conn, 200)
       %{"2021-05-01" => %{"rating" => rating}} = json["data"]
       assert rating == 10
@@ -109,7 +110,7 @@ defmodule SleepRescueWeb.Api.V1.NightControllerTest do
     test "with results", %{conn: conn, token: token} do
      conn = conn
             |> Plug.Conn.put_req_header("authorization", token)
-            |> get(Routes.api_v1_night_path(conn, :show, 30))
+            |> get(Routes.api_v1_night_path(conn, :show, 99999))
       assert json = json_response(conn, 200)
       %{"2021-05-01" => %{"rating" => rating}} = json["data"]
       assert rating == 6

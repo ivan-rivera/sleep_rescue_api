@@ -1,5 +1,6 @@
 defmodule SleepRescue.Users.IsiTest do
 
+  use ExUnit.Case, async: false
   use SleepRescue.DataCase
   alias SleepRescue.Repo
   alias SleepRescue.Users.{User, Isi}
@@ -7,7 +8,7 @@ defmodule SleepRescue.Users.IsiTest do
 
   @now DateTime.utc_now |> DateTime.truncate(:second)
   @user %{
-    email: "user@mail.com",
+    email: "user88@mail.com",
     password: "secret123",
     password_confirmation: "secret123"
   }

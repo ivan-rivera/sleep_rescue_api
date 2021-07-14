@@ -57,10 +57,12 @@ jobs:
       - name: Install Dependencies
         if: steps.mix-cache.outputs.cache-hit != 'true'
         run: |
+          echo "secret key is: ${SECRET_KEY_BASE_SR}"
           mkdir -p priv/plts
           mix local.rebar --force
           mix local.hex --force
           mix deps.get
           mix deps.compile
+          mix compile --force
       - name: Run test
         run: mix test --trace --slowest 10

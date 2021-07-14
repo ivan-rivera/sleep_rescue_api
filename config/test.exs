@@ -8,7 +8,7 @@ use Mix.Config
 config :sleep_rescue, SleepRescue.Repo,
   username: "postgres",
   password: "postgres",
-  database: "sleep_rescue_test#{System.get_env("MIX_TEST_PARTITION")}",
+  database: "sleep_rescue_test",
   hostname: "localhost",
   pool: Ecto.Adapters.SQL.Sandbox
 

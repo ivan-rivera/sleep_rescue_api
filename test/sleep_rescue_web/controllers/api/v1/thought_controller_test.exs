@@ -1,12 +1,13 @@
 defmodule SleepRescueWeb.Api.V1.ThoughtControllerTest do
 
+  use ExUnit.Case, async: true
   use SleepRescueWeb.ConnCase
   alias SleepRescue.Users.{Thought, User}
   alias SleepRescue.Repo
   alias SleepRescue.Test.Support.Defaults
 
   @now DateTime.utc_now |> DateTime.truncate(:second)
-  @email "user@mail.com"
+  @email "user456@mail.com"
   @password "secret123"
   @login %{"user" => %{"email" => @email, "password" => @password}}
   @user %{
