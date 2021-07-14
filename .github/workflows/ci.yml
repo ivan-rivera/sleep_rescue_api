@@ -16,8 +16,15 @@ env:
 
 jobs:
   pipeline:
-    name: Unit tests
+    name: Pipeline
     runs-on: ubuntu-latest
+    services:
+      db:
+        image: postgres:latest
+        ports: [ '5432:5432' ]
+        env:
+          POSTGRES_PASSWORD: postgres
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
     strategy:
       fail-fast: false
       matrix:
