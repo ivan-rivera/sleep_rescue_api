@@ -10,6 +10,7 @@ on:
 
 env:
   MIX_ENV: test
+  SECRET_KEY_BASE_SR: ${{ secrets.SECRET_KEY_BASE_SR }}
 
 jobs:
   deps:
