@@ -22,7 +22,7 @@ defmodule SleepRescueWeb.Api.V1.IsiControllerTest do
            |> Ecto.Changeset.change(%{email_confirmed_at: @now})
            |> Repo.insert!()
     conn_confirmed = post(conn, Routes.api_v1_session_path(conn, :create, @login))
-    :timer.sleep(50)
+    SleepRescue.Test.Support.Setup.init()
     %{user: user, token: conn_confirmed.private[:api_access_token]}
   end
 

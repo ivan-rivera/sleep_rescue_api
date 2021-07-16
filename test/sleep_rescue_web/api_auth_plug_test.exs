@@ -12,7 +12,7 @@ defmodule SleepRescueWeb.ApiAuthPlugTest do
   setup %{conn: conn} do
     conn = %{conn | secret_key_base: Endpoint.config(:secret_key_base)}
     user = Repo.insert!(%User{id: 10000, email: "testing@example.com"})
-    :timer.sleep(50)
+    SleepRescue.Test.Support.Setup.init()
     {:ok, conn: conn, user: user}
   end
 

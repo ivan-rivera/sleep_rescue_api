@@ -32,7 +32,7 @@ defmodule SleepRescueWeb.Api.V1.UserControllerTest do
 
     authed_conn_confirmed = post(conn, Routes.api_v1_session_path(conn, :create, @confirmed_valid_login))
     authed_conn_unconfirmed = post(conn, Routes.api_v1_session_path(conn, :create, @unconfirmed_valid_login))
-    :timer.sleep(50)
+    SleepRescue.Test.Support.Setup.init()
     {
       :ok,
       confirmed_user: confirmed_user,

@@ -32,7 +32,7 @@ defmodule SleepRescueWeb.Api.V1.NightControllerTest do
     |> Ecto.Changeset.change(%{email_confirmed_at: @now})
     |> Repo.insert!()
     conn_confirmed = post(conn, Routes.api_v1_session_path(conn, :create, @login))
-    :timer.sleep(50)
+    SleepRescue.Test.Support.Setup.init()
     %{user: user, token: conn_confirmed.private[:api_access_token]}
   end
 
@@ -97,7 +97,7 @@ defmodule SleepRescueWeb.Api.V1.NightControllerTest do
       conn
       |> Plug.Conn.put_req_header("authorization", token)
       |> patch(Routes.api_v1_night_path(conn, :update, @valid_input))
-      :timer.sleep(50)
+      SleepRescue.Test.Support.Setup.init()
       %{}
     end
 

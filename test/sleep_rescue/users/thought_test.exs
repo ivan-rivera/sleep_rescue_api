@@ -17,7 +17,7 @@ defmodule SleepRescue.Users.ThoughtTest do
     user = %User{} |> User.changeset(@user)
            |> Ecto.Changeset.change(%{email_confirmed_at: @now})
            |> Repo.insert!()
-    :timer.sleep(50)
+    SleepRescue.Test.Support.Setup.init()
     %{user: user}
   end
 
