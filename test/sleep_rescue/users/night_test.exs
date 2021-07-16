@@ -93,6 +93,7 @@ defmodule SleepRescue.Users.NightTest do
         date: ~D[2021-05-03]
       },
     ]
+    :timer.sleep(50)
     %{user: user, nights: nights, raw_inputs: raw_inputs}
   end
 

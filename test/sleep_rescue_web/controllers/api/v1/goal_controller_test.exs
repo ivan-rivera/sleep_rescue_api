@@ -22,6 +22,7 @@ defmodule SleepRescueWeb.Api.V1.GoalControllerTest do
            |> Ecto.Changeset.change(%{email_confirmed_at: @now})
            |> Repo.insert!()
     conn_confirmed = post(conn, Routes.api_v1_session_path(conn, :create, @login))
+    :timer.sleep(50)
     %{user: user, token: conn_confirmed.private[:api_access_token]}
   end
 

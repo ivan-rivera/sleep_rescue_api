@@ -85,7 +85,6 @@ defmodule SleepRescueWeb.ApiAuthPlug do
     with {:ok, signed_token} <- fetch_access_token(conn),
          {:ok, token}        <- verify_token(conn, signed_token, config),
          {user, metadata}    <- PersistentSessionCache.get(store_config, token) do
-
       CredentialsCache.delete(store_config, metadata[:access_token])
       PersistentSessionCache.delete(store_config, token)
 

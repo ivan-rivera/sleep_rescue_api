@@ -12,6 +12,7 @@ defmodule SleepRescueWeb.ApiAuthPlugTest do
   setup %{conn: conn} do
     conn = %{conn | secret_key_base: Endpoint.config(:secret_key_base)}
     user = Repo.insert!(%User{id: 10000, email: "testing@example.com"})
+    :timer.sleep(50)
     {:ok, conn: conn, user: user}
   end
 
@@ -23,7 +24,7 @@ defmodule SleepRescueWeb.ApiAuthPlugTest do
                  api_renewal_token: renewal_token
                }}, ^user} = ApiAuthPlug.create(conn, user, @pow_config)
 
-    :timer.sleep(100)
+    :timer.sleep(50)
 
     assert {_conn, ^user} = ApiAuthPlug.fetch(with_auth_header(conn, access_token), @pow_config)
     assert {%{private: %{
@@ -31,14 +32,14 @@ defmodule SleepRescueWeb.ApiAuthPlugTest do
              api_renewal_token: renewed_renewal_token
            }}, ^user} = ApiAuthPlug.renew(with_auth_header(conn, renewal_token), @pow_config)
 
-    :timer.sleep(100)
+    :timer.sleep(50)
 
     assert {_conn, nil} = ApiAuthPlug.fetch(with_auth_header(conn, access_token), @pow_config)
     assert {_conn, nil} = ApiAuthPlug.renew(with_auth_header(conn, renewal_token), @pow_config)
     assert {_conn, ^user} = ApiAuthPlug.fetch(with_auth_header(conn, renewed_access_token), @pow_config)
 
     ApiAuthPlug.delete(with_auth_header(conn, renewed_access_token), @pow_config)
-    :timer.sleep(100)
+    :timer.sleep(50)
 
     assert {_conn, nil} = ApiAuthPlug.fetch(with_auth_header(conn, renewed_access_token), @pow_config)
     assert {_conn, nil} = ApiAuthPlug.renew(with_auth_header(conn, renewed_renewal_token), @pow_config)

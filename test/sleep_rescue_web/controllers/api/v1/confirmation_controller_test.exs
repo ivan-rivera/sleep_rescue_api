@@ -30,6 +30,7 @@ defmodule SleepRescueWeb.Api.V1.ConfirmationControllerTest do
         |> Ecto.Changeset.change(%{email_confirmed_at: @now})
         |> Repo.insert!()
 
+    :timer.sleep(50)
     authed_conn_confirmed = post(conn, Routes.api_v1_session_path(conn, :create, @confirmed_valid_login))
     authed_conn_unconfirmed = post(conn, Routes.api_v1_session_path(conn, :create, @unconfirmed_valid_login))
     {

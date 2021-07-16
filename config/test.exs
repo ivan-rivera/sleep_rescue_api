@@ -23,3 +23,5 @@ config :sleep_rescue, SleepRescue.Mail.Mailer,
 
 # Print only warnings and errors during test
 config :logger, level: :warn
+
+config :pow, Pow.Ecto.Schema.Password, iterations: 1

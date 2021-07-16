@@ -27,6 +27,7 @@ defmodule SleepRescue.Users.IsiTest do
            |> User.changeset(@user2)
            |> Ecto.Changeset.change(%{email_confirmed_at: @now})
            |> Repo.insert!()
+    :timer.sleep(50)
     %{user: user, user2: user2}
   end
 

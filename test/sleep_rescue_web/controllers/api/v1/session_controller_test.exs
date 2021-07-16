@@ -15,7 +15,7 @@ defmodule SleepRescueWeb.Api.V1.SessionControllerTest do
         password_confirmation: @password
       })
       |> Repo.insert!()
-
+    :timer.sleep(50)
     {:ok, user: user}
   end
 
@@ -41,7 +41,7 @@ defmodule SleepRescueWeb.Api.V1.SessionControllerTest do
   describe "renew/2" do
     setup %{conn: conn} do
       authed_conn = post(conn, Routes.api_v1_session_path(conn, :create, @valid_params))
-      :timer.sleep(100)
+      :timer.sleep(50)
 
       {:ok, renewal_token: authed_conn.private[:api_renewal_token]}
     end
@@ -71,7 +71,7 @@ defmodule SleepRescueWeb.Api.V1.SessionControllerTest do
   describe "delete/2" do
     setup %{conn: conn} do
       authed_conn = post(conn, Routes.api_v1_session_path(conn, :create, @valid_params))
-      :timer.sleep(100)
+      :timer.sleep(50)
 
       {:ok, access_token: authed_conn.private[:api_access_token]}
     end
