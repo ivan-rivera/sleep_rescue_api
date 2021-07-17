@@ -6,7 +6,7 @@ defmodule SleepRescue.Email do
     from_user = user || "Anonymous"
     new_email(
       from: "no-reply@sleeprescue.org",
-      to: "admin@sleeprescue.org",
+      to: "info@sleeprescue.org",
       subject: "New email from user: #{from_user}",
       text_body: message
     )
