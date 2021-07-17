@@ -6,7 +6,7 @@ use Mix.Config
 #
 
 database_url =
-  System.get_env("SR_DATABASE_URL") ||
+  System.get_env("DATABASE_URL") ||
     raise """
     environment variable DATABASE_URL is missing.
     For example: ecto://USER:PASS@HOST/DATABASE
@@ -29,12 +29,12 @@ config :sleep_rescue, SleepRescueWeb.Endpoint,
   cache_static_manifest: "priv/static/cache_manifest.json"
 
 config :sleep_rescue, SleepRescueWeb.Endpoint,
-       url: [host: "sleeprescue.org", port: 80],
+       url: [host: "api.sleeprescue.org", port: 80],
        cache_static_manifest: "priv/static/cache_manifest.json",
        http: [
          port: String.to_integer(System.get_env("PORT") || "4000"),
          #cipher_suite: :strong,
-         #force_ssl: [hsts: true],
+         force_ssl: [rewrite_on: [:x_forwarded_proto]],
          #keyfile: System.get_env("SR_SSL_KEY_PATH"), # TODO: get these
          #certfile: System.get_env("SR_APP_SSL_CERT_PATH"),
          transport_options: [socket_opts: [:inet6]]
@@ -42,7 +42,7 @@ config :sleep_rescue, SleepRescueWeb.Endpoint,
        secret_key_base: secret_key_base
 
 config :sleep_rescue, SleepRescue.Repo,
-       # ssl: true,
+       ssl: true,
        url: database_url,
        pool_size: String.to_integer(System.get_env("POOL_SIZE") || "10")
 
