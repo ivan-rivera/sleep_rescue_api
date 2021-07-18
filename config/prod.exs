@@ -25,20 +25,11 @@ secret_key_base =
 # which you should run after static files are built and
 # before starting your production server.
 config :sleep_rescue, SleepRescueWeb.Endpoint,
-  url: [host: "sleeprescue.org", port: 80],
-  cache_static_manifest: "priv/static/cache_manifest.json"
-
-config :sleep_rescue, SleepRescueWeb.Endpoint,
-       url: [host: "api.sleeprescue.org", port: 80],
+       url: [scheme: "https", host: "api.sleeprescue.org", port: 443],
        cache_static_manifest: "priv/static/cache_manifest.json",
-       http: [
-         port: String.to_integer(System.get_env("PORT") || "4000"),
-         #cipher_suite: :strong,
-         force_ssl: [rewrite_on: [:x_forwarded_proto]],
-         #keyfile: System.get_env("SR_SSL_KEY_PATH"), # TODO: get these
-         #certfile: System.get_env("SR_APP_SSL_CERT_PATH"),
-         transport_options: [socket_opts: [:inet6]]
-       ],
+       http: [port: String.to_integer(System.get_env("PORT") || "4000")],
+       force_ssl: [rewrite_on: [:x_forwarded_proto]],
+       transport_options: [socket_opts: [:inet6]],
        secret_key_base: secret_key_base
 
 config :sleep_rescue, SleepRescue.Repo,
