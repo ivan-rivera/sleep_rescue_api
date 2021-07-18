@@ -44,7 +44,12 @@ defmodule SleepRescueWeb.Endpoint do
   plug Plug.Session, @session_options
 
   plug Corsica,
-    origins: ["http://localhost:8000", "http://192.168.0.11:8000"],
+    origins: [
+      "http://localhost:8000",
+      "http://192.168.0.11:8000",
+      "https://www.sleeprescue.org",
+      System.get_env("DEV_IP")
+    ],
     allow_credentials: true,
     allow_headers: ["Content-Type", "Authorization", "Access-Control-Allow-Origin"],
     log: [rejected: :error, invalid: :warn, accepted: :debug]

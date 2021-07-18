@@ -15,7 +15,7 @@ defmodule SleepRescue.Application do
       {Phoenix.PubSub, name: SleepRescue.PubSub},
       # Start the Endpoint (http/https)
       SleepRescueWeb.Endpoint,
-      Pow.Store.Backend.MnesiaCache
+      {Pow.Postgres.Store.AutoDeleteExpired, [interval: :timer.hours(1)]},
       # Start a worker by calling: SleepRescue.Worker.start_link(arg)
       # {SleepRescue.Worker, arg}
     ]

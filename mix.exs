@@ -20,7 +20,7 @@ defmodule SleepRescue.MixProject do
   def application do
     [
       mod: {SleepRescue.Application, []},
-      extra_applications: [:logger, :runtime_tools, :bamboo, :mnesia]
+      extra_applications: [:logger, :runtime_tools, :bamboo]
     ]
   end
 
@@ -34,6 +34,7 @@ defmodule SleepRescue.MixProject do
   defp deps do
     [
       {:pow, "~> 1.0.23"},
+      {:pow_postgres_store, github: "ZennerIoT/pow_postgres_store"},
       {:corsica, "~> 1.1.3"},
       {:phoenix, "~> 1.5.6"},
       {:phoenix_ecto, "~> 4.1"},

@@ -5,3 +5,15 @@ backend:
 .PHONY: seed
 seed:
 	mix run priv/repo/seeds.exs
+
+.PHONY: plogs
+plogs:
+	heroku logs --tail -a sleep-rescue-api
+
+.PHONY: prun
+prun:
+	heroku run -a sleep-rescue-api "iex -S mix"
+
+.PHONY: pmigrate
+pmigrate:
+	heroku run -a sleep-rescue-api "POOL_SIZE=2 mix ecto.migrate"

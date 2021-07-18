@@ -24,7 +24,7 @@ config :sleep_rescue, SleepRescueWeb.Endpoint,
 config :sleep_rescue, :pow,
   user: SleepRescue.Users.User,
   repo: SleepRescue.Repo,
-  cache_store_backend: Pow.Store.Backend.MnesiaCache,
+  cache_store_backend: Pow.Postgres.Store,
   extensions: [PowResetPassword, PowEmailConfirmation, PowPersistentSession],
   controller_callbacks: Pow.Extension.Phoenix.ControllerCallbacks
 
@@ -35,6 +35,9 @@ config :logger, :console,
 
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
+
+config :pow, Pow.Postgres.Store,
+  repo: SleepRescue.Repo
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.

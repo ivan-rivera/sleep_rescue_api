@@ -117,6 +117,7 @@
       <excludeFolder url="file://$MODULE_DIR$/_build/prod/lib/ecto_sql" />
       <excludeFolder url="file://$MODULE_DIR$/_build/prod/lib/plug" />
       <excludeFolder url="file://$MODULE_DIR$/_build/prod/lib/cowlib" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/pow_postgres_store" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="phoenix" level="project" />
@@ -159,5 +160,6 @@
     <orderEntry type="library" name="floki" level="project" />
     <orderEntry type="library" name="myxql" level="project" />
     <orderEntry type="library" name="tds" level="project" />
+    <orderEntry type="library" name="pow_postgres_store" level="project" />
   </component>
 </module>
