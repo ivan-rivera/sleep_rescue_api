@@ -67,6 +67,5 @@ jobs:
           mix deps.compile
           mix compile --force
           mix phx.digest
-          mix ecto.migrate
       - name: Run test
         run: mix test --trace --slowest 10
