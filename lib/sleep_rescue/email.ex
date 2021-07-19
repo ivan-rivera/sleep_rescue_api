@@ -2,10 +2,12 @@ defmodule SleepRescue.Email do
   use Bamboo.Template, view: SleepRescue.Mail.AccountView
   import Bamboo.Email
 
+  @domain System.get_env("SR_MAIL_DOMAIN")
+
   def contact_email(message, user \\ nil) do
     from_user = user || "Anonymous"
     new_email(
-      from: "no-reply@sleeprescue.org",
+      from: "no-reply@#{@domain}",
       to: "info@sleeprescue.org",
       subject: "New email from user: #{from_user}",
       text_body: message
@@ -28,7 +30,7 @@ defmodule SleepRescue.Email do
 
   defp base_email(subject) do
     new_email()
-    |> from("no-reply@sleeprescue.org")
+    |> from("no-reply@#{@domain}")
     |> subject(subject)
     |> put_html_layout({SleepRescue.Mail.LayoutView, "email.html"})
   end

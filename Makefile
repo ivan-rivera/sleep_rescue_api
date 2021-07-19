@@ -2,6 +2,10 @@
 backend:
 	iex -S mix phx.server
 
+.PHONY: pbackend
+pbackend:
+	MIX_ENV=prod iex -S mix phx.server
+
 .PHONY: seed
 seed:
 	mix run priv/repo/seeds.exs

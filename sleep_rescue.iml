@@ -119,6 +119,7 @@
       <excludeFolder url="file://$MODULE_DIR$/_build/prod/lib/cowlib" />
       <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/pow_postgres_store" />
       <excludeFolder url="file://$MODULE_DIR$/_build/test/lib/pow_postgres_store" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/prod/lib/pow_postgres_store" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="phoenix" level="project" />
