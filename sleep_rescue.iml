@@ -120,6 +120,9 @@
       <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/pow_postgres_store" />
       <excludeFolder url="file://$MODULE_DIR$/_build/test/lib/pow_postgres_store" />
       <excludeFolder url="file://$MODULE_DIR$/_build/prod/lib/pow_postgres_store" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/floki" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/html_entities" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/premailex" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="phoenix" level="project" />
@@ -163,5 +166,9 @@
     <orderEntry type="library" name="myxql" level="project" />
     <orderEntry type="library" name="tds" level="project" />
     <orderEntry type="library" name="pow_postgres_store" level="project" />
+    <orderEntry type="library" name="premailex" level="project" />
+    <orderEntry type="library" name="meeseeks" level="project" />
+    <orderEntry type="library" name="certifi" level="project" />
+    <orderEntry type="library" name="ssl_verify_fun" level="project" />
   </component>
 </module>

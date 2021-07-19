@@ -27,6 +27,17 @@ config :sleep_rescue, SleepRescue.Mail.Mailer,
    adapter: Bamboo.LocalAdapter,
    open_email_in_browser_url: "http://localhost:4000/sent_emails"
 
+#config :sleep_rescue, SleepRescue.Mail.Mailer,
+#       adapter: Bamboo.MailgunAdapter,
+#       api_key: System.get_env("SR_MAIL_API_KEY"),
+#       domain: System.get_env("SR_MAIL_DOMAIN"),
+#       base_uri: "https://api.eu.mailgun.net/v3",
+#       hackney_opts: [
+#         recv_timeout: :timer.minutes(1),
+#         ssl_options: [versions: [:"tlsv1.2"]]
+#       ]
+
+
 # ## SSL Support
 #
 # In order to use HTTPS in development, a self-signed

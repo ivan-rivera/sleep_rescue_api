@@ -16,7 +16,7 @@ plogs:
 
 .PHONY: prun
 prun:
-	heroku run -a sleep-rescue-api "iex -S mix"
+	heroku run -a sleep-rescue-api "POOL_SIZE=2 iex -S mix"
 
 .PHONY: pmigrate
 pmigrate:
