@@ -37,7 +37,7 @@ config :sleep_rescue, SleepRescue.Repo,
        url: database_url,
        pool_size: String.to_integer(System.get_env("POOL_SIZE") || "10")
 
-config :sleep_rescue, MyApp.Mailer,
+config :sleep_rescue, SleepRescue.Mail.Mailer,
        adapter: Bamboo.MailgunAdapter,
        api_key: System.get_env("SR_MAIL_API_KEY"),
        domain: System.get_env("SR_MAIL_DOMAIN"),
