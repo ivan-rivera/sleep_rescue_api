@@ -25,8 +25,8 @@ secret_key_base =
 # which you should run after static files are built and
 # before starting your production server.
 config :sleep_rescue, SleepRescueWeb.Endpoint,
-       url: [scheme: "https", host: System.get_env("SR_API_URL")],
-       #cache_static_manifest: "priv/static/cache_manifest.json",
+       url: [host: System.get_env("SR_API_URL")],
+       cache_static_manifest: "priv/static/cache_manifest.json",
        http: [port: String.to_integer(System.get_env("PORT") || "4000")],
        #force_ssl: [rewrite_on: [:x_forwarded_proto]],
        secret_key_base: secret_key_base
