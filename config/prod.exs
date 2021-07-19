@@ -25,10 +25,11 @@ secret_key_base =
 # which you should run after static files are built and
 # before starting your production server.
 config :sleep_rescue, SleepRescueWeb.Endpoint,
-       url: [host: System.get_env("SR_API_URL")],
+       url: [scheme: "https", host: System.get_env("SR_API_URL"), port: 443],
        cache_static_manifest: "priv/static/cache_manifest.json",
        http: [port: String.to_integer(System.get_env("PORT") || "4000")],
-       #force_ssl: [rewrite_on: [:x_forwarded_proto]],
+       force_ssl: [rewrite_on: [:x_forwarded_proto]],
+       transport_options: [socket_opts: [:inet6]],
        secret_key_base: secret_key_base
 
 config :sleep_rescue, SleepRescue.Repo,
@@ -40,7 +41,7 @@ config :sleep_rescue, SleepRescue.Mail.Mailer,
        adapter: Bamboo.MailgunAdapter,
        api_key: System.get_env("SR_MAIL_API_KEY"),
        domain: System.get_env("SR_MAIL_DOMAIN"),
-       base_uri: "https://api.eu.mailgun.net/v3",
+       base_uri: "https://api.eu.mailgun.net",
        hackney_opts: [
          recv_timeout: :timer.minutes(1)
        ]
