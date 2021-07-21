@@ -86,8 +86,7 @@ defmodule SleepRescueWeb.Api.V1.UserControllerTest do
         conn
         |> Plug.Conn.put_req_header("authorization", token)
         |> delete(Routes.api_v1_user_path(conn, :delete), %{"current_password" => @password})
-      assert json = json_response(conn, 401)
-      assert json["error"]["message"] == "Please confirm your email before accessing this action"
+      assert json_response(conn, 200)
     end
 
     test "delete confirmed user", %{conn: conn, confirmed_access_token: token} do
