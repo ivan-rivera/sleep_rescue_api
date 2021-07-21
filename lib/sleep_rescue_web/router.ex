@@ -36,13 +36,13 @@ defmodule SleepRescueWeb.Router do
     get "/confirmation/resend", ConfirmationController, :resend_email_confirmation
     get "/confirmation/status", ConfirmationController, :get_confirmation_status
     get "/user/reset", UserController, :cancel_email_change
-    resources "/user", UserController, singleton: true, only: [:show]
+    resources "/user", UserController, singleton: true, only: [:delete, :show]
   end
 
 
   scope "/api/v1", SleepRescueWeb.Api.V1, as: :api_v1 do
     pipe_through [:api, :api_confirmed]
-    resources "/user", UserController, singleton: true, only: [:delete, :update]
+    resources "/user", UserController, singleton: true, only: [:update]
     resources "/goal", GoalController, singleton: true, only: [:show, :create, :delete]
     resources "/thought", ThoughtController, singleton: true, only: [:show, :create, :delete]
     resources "/isi", IsiController, singleton: true, only: [:show, :update, :delete]

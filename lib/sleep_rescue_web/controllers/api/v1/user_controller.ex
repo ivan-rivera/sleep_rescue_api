@@ -53,7 +53,7 @@ defmodule SleepRescueWeb.Api.V1.UserController do
 
   @doc """
   Delete user
-  This action is password protected
+  This action is password protected only when the user has confirmed their email
   """
   @spec delete(Conn.t(), map()) :: Conn.t()
   def delete(conn, %{"current_password" => password}) do
@@ -68,7 +68,18 @@ defmodule SleepRescueWeb.Api.V1.UserController do
     end
   end
 
-  def delete(conn, _params), do: json_error(conn, 400, "no password provided")
+  @spec delete(Conn.t(), map()) :: Conn.t()
+  def delete(conn, _params) do
+    u = conn.assigns.current_user
+    with  user when not is_nil(user) <- u,
+          true <- is_nil(u.email_confirmed_at) || is_nil(u.unconfirmed_email),
+          {:ok, _u} <- User.delete(user.id) do
+      json(conn, %{message: "success"})
+    else
+      nil -> json_error(conn, 404, "user not found")
+      _ -> json_error(conn, 500, "server error")
+    end
+  end
 
 
   @doc """
