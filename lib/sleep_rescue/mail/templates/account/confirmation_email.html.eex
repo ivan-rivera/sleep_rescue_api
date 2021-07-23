@@ -1,16 +1,16 @@
 <h1 style="text-align: center; margin-left: auto; margin-right: auto;">Please confirm your email</h1>
 <div style="border-top: 1px solid #BEE3DB;"></div>
 <p>
-    <span>Welcome to <a href="https://www.sleeprescue.org" style="color: #FFD6BA; text-decoration: none; font-weight: bold;">SleepRescue.org</a>!</span>
+    <span>Welcome to <a href="https://www.sleeprescue.org" style="color: #89B0AE; text-decoration: none; font-weight: bold;">SleepRescue.org</a>!</span>
     <br><br>
     <span>
-        Please confirm your email by clicking on <a href="<%= @url %>" style="color: #FFD6BA; text-decoration: none; font-weight: bold;">this link</a>.
+        Please confirm your email by clicking on <a href="<%= @url %>" style="color: #89B0AE; text-decoration: none; font-weight: bold;">this link</a>.
         <br><br>
         If you did not create a SleepRescue.org account, then please ignore this email.
     </span>
     <br><br>
     <span>Sleep well,</span>
     <br>
-    <span><a href="https://www.sleeprescue.org" style="color: #FFD6BA; text-decoration: none; font-weight: bold;">SleepRescue.org</a> team</span>
+    <span><a href="https://www.sleeprescue.org" style="color: #89B0AE; text-decoration: none; font-weight: bold;">SleepRescue.org</a> team</span>
 </p>
 <div style="border-top: 1px solid #BEE3DB;"></div>

@@ -1,10 +1,9 @@
-<html style="font-family: 'Oxygen', sans-serif; background: #555B6E; color: #FAF9F9; padding-left: 100px; padding-right: 100px;">
+<html style="font-family: 'Oxygen', sans-serif; padding-left: 100px; padding-right: 100px;">
     <head>
         <link rel="preconnect" href="https://fonts.gstatic.com">
         <link href="https://fonts.googleapis.com/css2?family=Oxygen:wght@300;400;700&display=swap" rel="stylesheet">
     </head>
     <header style="text-align: center; margin-left: auto; margin-right: auto;">
-        <img src="https://svgshare.com/i/ZUT.svg">
     </header>
     <body>
         <div>
@@ -15,13 +14,13 @@
         <p>SleepRescue.org © <%= DateTime.utc_now.year %></p>
         <div>
             <ul style="display: inline; list-style: none; padding-left: 0;">
-                <li style="display: inline-block;"><a href="https://www.sleeprescue.org/about" style="color: #FFD6BA; text-decoration: none; font-weight: bold;">About us</a></li>
+                <li style="display: inline-block;"><a href="https://www.sleeprescue.org/about" style="color: #89B0AE; text-decoration: none; font-weight: bold;">About us</a></li>
                 <li style="display: inline-block;">|</li>
-                <li style="display: inline-block;"><a href="https://www.sleeprescue.org/contact" style="color: #FFD6BA; text-decoration: none; font-weight: bold;">Contact</a></li>
+                <li style="display: inline-block;"><a href="https://www.sleeprescue.org/contact" style="color: #89B0AE; text-decoration: none; font-weight: bold;">Contact</a></li>
                 <li style="display: inline-block;">|</li>
-                <li style="display: inline-block;"><a href="https://www.sleeprescue.org/tc" style="color: #FFD6BA; text-decoration: none; font-weight: bold;">Terms of Service</a></li>
+                <li style="display: inline-block;"><a href="https://www.sleeprescue.org/tc" style="color: #89B0AE; text-decoration: none; font-weight: bold;">Terms of Service</a></li>
                 <li style="display: inline-block;">|</li>
-                <li style="display: inline-block;"><a href="https://www.sleeprescue.org/privacy" style="color: #FFD6BA; text-decoration: none; font-weight: bold;">Privacy</a></li>
+                <li style="display: inline-block;"><a href="https://www.sleeprescue.org/privacy" style="color: #89B0AE; text-decoration: none; font-weight: bold;">Privacy</a></li>
             </ul>
         </div>
     </footer>
