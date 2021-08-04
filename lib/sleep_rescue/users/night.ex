@@ -5,7 +5,7 @@ defmodule SleepRescue.Users.Night do
   import Ecto.Changeset
   import Ecto.Query, only: [from: 2]
 
-  @tomorrow Date.utc_today |> Date.add(1)
+  @today Date.utc_today
   @integer_columns [
     "sleep_attempt_timestamp",
     "final_awakening_timestamp",
@@ -119,11 +119,11 @@ defmodule SleepRescue.Users.Night do
   end
 
   @doc """
-  Given a user, from date (usually tomorrow) and how far back do we want to look, retrieve
+  Given a user, from date (usually today) and how far back do we want to look, retrieve
   all nightly records as a list of nights
   """
   @spec list_nights(%User{}, integer(), DateTime.t()) :: list(%__MODULE__{})
-  def list_nights(%User{} = user, n_days_back \\ 180, from_date \\ @tomorrow) do
+  def list_nights(%User{} = user, n_days_back \\ 180, from_date \\ @today) do
     last_date = from_date
                 |> Date.add(-n_days_back)
                 |> Date.to_string()

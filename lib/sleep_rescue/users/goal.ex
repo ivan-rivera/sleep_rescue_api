@@ -9,7 +9,7 @@ defmodule SleepRescue.Users.Goal do
   import Ecto.Changeset
   import Ecto.Query, only: [from: 2]
 
-  @today Date.utc_today()
+  @yesterday Date.add(Date.utc_today(), -1)
   @accepted_metrics [
     "Sleep duration",
     "Time to fall asleep",
@@ -47,21 +47,21 @@ defmodule SleepRescue.Users.Goal do
   List user-owned goals together with the corresponding actual results
   """
   @spec list_goals(%User{}, %DateTime{}) :: map()
-  def list_goals(%User{} = user, today \\ @today) do
+  def list_goals(%User{} = user, yesterday \\ @yesterday) do
     case from(g in __MODULE__, where: g.user_id == ^user.id) |> Repo.all() do
       [] -> {:ok, []}
       user_goals ->
         max_duration = Enum.map(user_goals, fn g -> g.duration end) |> Enum.max()
         user_nights =
           user
-          |> Night.list_nights(max_duration, today)
+          |> Night.list_nights(max_duration, yesterday)
           |> Enum.map(&Night.summarise_night/1)
         { :ok,
           user_goals
           |> Enum.map(&Map.from_struct/1)
           |> Enum.map(fn g ->
             user_nights
-            |> Enum.filter(fn {d, _} -> Date.compare(d, Date.add(today, -g.duration)) == :gt end)
+            |> Enum.filter(fn {d, _} -> Date.compare(d, Date.add(yesterday, -g.duration)) == :gt end)
             |> assemble_report(g)
           end)
         }
@@ -119,7 +119,7 @@ defmodule SleepRescue.Users.Goal do
     }
   end
 
-  defp assemble_report(nights, goal) do
+  def assemble_report(nights, goal) do
     %{
       "id" => goal.id,
       "metric" => goal.metric,
