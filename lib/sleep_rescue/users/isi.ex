@@ -9,8 +9,6 @@ defmodule SleepRescue.Users.Isi do
   import Ecto.Changeset
   import Ecto.Query, only: [from: 2]
 
-  @today Date.utc_today
-
   @derive {Jason.Encoder, except: [:user, :__meta__, :__struct__]}
   schema "isis" do
     belongs_to :user, User
@@ -26,7 +24,7 @@ defmodule SleepRescue.Users.Isi do
   end
 
   @spec changeset(%__MODULE__{}, map()) :: Ecto.Changeset.t()
-  def changeset(%__MODULE__{} = isi, attrs \\ %{}, date \\ @today) do
+  def changeset(%__MODULE__{} = isi, attrs \\ %{}, date \\ get_today()) do
     isi
     |> cast(Map.put(attrs, "date", date), [
       :date,
@@ -51,7 +49,7 @@ defmodule SleepRescue.Users.Isi do
   Create or update an ISI result
   """
   @spec create_or_update_isi(%User{}, map()) :: {:ok, map()} | {:error, map()}
-  def create_or_update_isi(%User{} = user, attrs, date \\ @today) do
+  def create_or_update_isi(%User{} = user, attrs, date \\ get_today()) do
     case Repo.get_by(__MODULE__, [user_id: user.id, date: date]) do
       nil ->
         user
@@ -90,5 +88,7 @@ defmodule SleepRescue.Users.Isi do
         {:ok, result}
     end
   end
+
+  defp get_today, do: Date.utc_today()
 
 end

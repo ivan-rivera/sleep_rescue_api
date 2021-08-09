@@ -5,7 +5,6 @@ defmodule SleepRescue.Users.Night do
   import Ecto.Changeset
   import Ecto.Query, only: [from: 2]
 
-  @today Date.utc_today
   @integer_columns [
     "sleep_attempt_timestamp",
     "final_awakening_timestamp",
@@ -123,7 +122,7 @@ defmodule SleepRescue.Users.Night do
   all nightly records as a list of nights
   """
   @spec list_nights(%User{}, integer(), DateTime.t()) :: list(%__MODULE__{})
-  def list_nights(%User{} = user, n_days_back \\ 180, from_date \\ @today) do
+  def list_nights(%User{} = user, n_days_back \\ 180, from_date \\ get_today()) do
     last_date = from_date
                 |> Date.add(-n_days_back)
                 |> Date.to_string()
@@ -208,4 +207,5 @@ defmodule SleepRescue.Users.Night do
     slept / (slept + awake)
   end
 
+  defp get_today, do: Date.utc_today()
 end
