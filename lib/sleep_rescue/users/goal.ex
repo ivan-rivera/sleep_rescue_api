@@ -8,6 +8,7 @@ defmodule SleepRescue.Users.Goal do
   alias SleepRescue.Users.{User, Night}
   import Ecto.Changeset
   import Ecto.Query, only: [from: 2]
+  require Logger
 
   @yesterday Date.add(Date.utc_today(), -1)
   @accepted_metrics [
@@ -51,18 +52,16 @@ defmodule SleepRescue.Users.Goal do
     case from(g in __MODULE__, where: g.user_id == ^user.id) |> Repo.all() do
       [] -> {:ok, []}
       user_goals ->
-        max_duration = Enum.map(user_goals, fn g -> g.duration end) |> Enum.max()
-        user_nights =
-          user
+        max_duration = get_max_goal_duration(user_goals)
+        user_nights = user
           |> Night.list_nights(max_duration, yesterday)
           |> Enum.map(&Night.summarise_night/1)
         { :ok,
           user_goals
           |> Enum.map(&Map.from_struct/1)
-          |> Enum.map(fn g ->
-            user_nights
-            |> Enum.filter(fn {d, _} -> Date.compare(d, Date.add(yesterday, -g.duration)) == :gt end)
-            |> assemble_report(g)
+          |> Enum.map(fn goal -> user_nights
+            |> filter_nights_by_goal(goal)
+            |> assemble_report(goal)
           end)
         }
     end
@@ -87,7 +86,7 @@ defmodule SleepRescue.Users.Goal do
     Enum.map(@default_goals , fn g -> create_goal(user, g) end)
   end
 
-  defp get_results(nights, metric) do
+  defp get_night_stats(nights, metric) do
     if length(nights) > 0 do
       nights
       |> Night.aggregate_nights()
@@ -120,14 +119,26 @@ defmodule SleepRescue.Users.Goal do
   end
 
   def assemble_report(nights, goal) do
+    n = length(nights)
+    if n > goal.duration do
+        # experienced a strange error with this!
+        Logger.error("night lengths exceed required duration -- nights: #{n}, duration: #{goal.duration}")
+      end
     %{
       "id" => goal.id,
       "metric" => goal.metric,
       "duration" => goal.duration,
       "threshold" => goal.threshold,
-      "completed" => length(nights),
-      "actual" => get_results(nights, goal.metric)
+      "completed" => min(n, goal.duration),
+      "actual" => get_night_stats(nights, goal.metric)
     }
   end
+
+  defp get_max_goal_duration(goals), do: goals
+    |> Enum.map(fn g -> g.duration end)
+    |> Enum.max()
+
+  defp filter_nights_by_goal(nights, goal), do: nights
+    |> Enum.filter(fn {d, _} -> Date.compare(d, Date.add(@yesterday, -goal.duration)) == :gt end)
 
 end
